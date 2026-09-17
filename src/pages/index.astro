@@ -1,0 +1,23 @@
+---
+// 页面入口：下面的顺序 = 页面从上到下的版块顺序
+// 每个组件都自带 <section> 外壳，增删/调序直接加减一行即可
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Abstract from '../components/Abstract.astro';
+import RealWorldDemo from '../components/RealWorldDemo.astro';
+import Demos from '../components/Demos.astro';
+import PretrainingComparison from '../components/PretrainingComparison.astro';
+
+// 版块通用样式
+import '../styles/section.css';
+import '../styles/hero.css';
+
+const pageTitle = "Fast World Planner: Advantage-Aware Action-Chunk Policy for Online Planning";
+---
+<Layout title={pageTitle}>
+  <Hero />
+  <Abstract />
+  <!-- <RealWorldDemo />
+  <Demos />
+  <PretrainingComparison /> -->
+</Layout>

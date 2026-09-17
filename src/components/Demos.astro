@@ -1,0 +1,109 @@
+---
+// Demos.astro - 主结果视频区（每个条目一行视频）
+// 用法：把 mp4 放进 public/demos/，然后往下面数组里加一项即可。
+const sectionTitle = "TODO: 主结果版块标题";
+
+/** @type {{ robot: string; task: string; videoSrc: string }[]} */
+const robotDemos = [
+  // 示例（取消注释并改成你自己的文件）：
+  // { robot: "Go1 Quadruped", task: "Walk Straight", videoSrc: "/demos/go1_comparison.mp4" },
+];
+---
+
+<section id="demos" class="content-section demos-section">
+  <div class="section-container">
+    <h3 class="section-title-left">{sectionTitle}</h3>
+
+    {robotDemos.length === 0 && (
+      <div class="video-placeholder">
+        把视频放进 <code>public/demos/</code>，再到
+        <code>src/components/Demos.astro</code> 的 <code>robotDemos</code> 数组里加一项
+      </div>
+    )}
+
+    {robotDemos.map((demo) => (
+      <div class="robot-section">
+        <h3 class="robot-title">{demo.robot} <span class="task-label">({demo.task})</span></h3>
+        <div class="comparison-row">
+          <div class="video-wrapper">
+            <video autoplay loop muted playsinline>
+              <source src={demo.videoSrc} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .demos-section {
+    padding-top: 0;
+  }
+
+  .demos-section .section-container {
+    max-width: 1400px;
+  }
+
+  .section-title-left {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2a2f6c;
+    margin: 0 0 2rem 0;
+    text-align: left;
+  }
+
+  .robot-section {
+    margin-top: 2.5rem;
+  }
+
+  .robot-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2a2f6c;
+    margin: 0 0 1rem 0;
+  }
+
+  .task-label {
+    font-weight: 400;
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .comparison-row {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .video-wrapper {
+    width: 100%;
+    background: #1a1a2e;
+  }
+
+  .video-wrapper video {
+    width: 100%;
+    display: block;
+  }
+
+  .video-placeholder {
+    border: 2px dashed #c3c7e0;
+    border-radius: 12px;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    background: #fafbff;
+  }
+
+  .video-placeholder code {
+    background: #eceefb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #2a2f6c;
+  }
+</style>

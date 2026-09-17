@@ -1,0 +1,79 @@
+---
+// Abstract.astro - 论文摘要版块
+// 正文直接写在下面的段落里，方便随手加 <b>、<a>、公式等行内标记。
+const sectionTitle = "Abstract";
+---
+
+<section id="abstract" class="content-section abstract-section">
+  <div class="section-container">
+    <h2 class="abstract-title">{sectionTitle}</h2>
+    <div class="abstract-body">
+      <p>Model Predictive Path Integral (MPPI) control is central to online planning for model-based reinforcement learning (MBRL), but iterative refinement incurs planning latency. Reducing refinement can degrade performance, motivating better policy guidance learned from the planner. However, existing methods use action-level alignment to learn the planner's first-action distributions, which do not directly represent the complete planner proposal, while planner imitation leaves further target improvement to online refinement.</p>
+      <p>We therefore propose <span class="method">Fa<strong class="acronym">S</strong>t <strong class="acronym">W</strong>orld Pl<strong class="acronym">AN</strong>ner (<strong class="acronym">SWAN</strong>)</span>, an advantage-aware MPPI-based MBRL framework that improves online planning efficiency through better policy guidance. For proposal representation, SWAN combines k-MPPI, a multimodal MPPI extension, with a <span class="term">mixture of factor analyzers (MFA) action-chunk policy</span> to model multiple modes and correlations across time and action dimensions. To further improve the proposal, SWAN introduces <span class="term">Advantage-Guided Proposal Optimization (APO)</span>, which reuses MPPI evaluations to construct an improved target and trains the policy toward the target while preserving planner alignment.</p>
+      <p>Experiments across <span class="result">31 high-dimensional continuous-control tasks</span> from DMControl, HumanoidBench, and MyoSuite show that SWAN substantially improves control performance and sample efficiency while using <span class="result">50% fewer MPPI refinement iterations</span> than state-of-the-art planning-based MBRL methods. Finally, we deploy SWAN on a <span class="result">Unitree Go2</span>, where it achieves stable velocity-tracking locomotion with high-frequency control.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* 两个数一起调：容器越宽，字号要同步调大，否则每行字符数会失控 */
+  .abstract-section {
+    --abstract-width: 1000px;
+    --abstract-font: 1.2rem;
+  }
+
+  .abstract-section .section-container {
+    max-width: var(--abstract-width);
+  }
+
+  .abstract-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2a2f6c;
+    margin: 0 0 1.25rem 0;
+    text-align: center;
+  }
+
+  .abstract-body p {
+    font-size: var(--abstract-font);
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+    hyphens: auto;
+    margin: 0 0 1.15rem 0;
+  }
+
+  /* 方法名与重点术语：与标题同色，用于突出 contribution */
+  .abstract-body .method,
+  .abstract-body .term {
+    color: #2a2f6c;
+    font-weight: 700;
+  }
+
+  /* SWAN 的来源字母与缩写：红色，从蓝色方法名中跳出来 */
+  .abstract-body .method .acronym {
+    color: #c0392b;
+  }
+
+  /* 实验结果：类名独立，方便日后与 contribution 区分处理 */
+  .abstract-body .result {
+    color: #2a2f6c;
+    font-weight: 700;
+  }
+
+  .abstract-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .abstract-body a {
+    color: #2a2f6c;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .abstract-body p {
+      font-size: 1.05rem;
+      text-align: left;   /* 窄屏两端对齐会出现难看的大字距 */
+    }
+  }
+</style>

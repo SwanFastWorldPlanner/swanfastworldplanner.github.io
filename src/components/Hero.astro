@@ -1,0 +1,46 @@
+---
+// Hero.astro - 页面顶部标题区
+// TODO: 换成你自己的标题 / 副标题；作者与论文链接按钮按需在下方 <!-- --> 处补回
+const subtitle = "TODO: 一句话副标题，描述这个项目是什么";
+---
+<section id="hero" class="content-section hero-section">
+  <div class="title-wrapper">
+    <!-- 标题写成内联标记（而非 JS 字符串），才能给 SWAN 的来源字母单独上色 -->
+    <h1 class="main-title">Fa<span class="acronym">S</span>t <span class="acronym">W</span>orld Pl<span class="acronym">AN</span>ner: Advantage-Aware Action-Chunk Policy for Online Planning</h1>
+  </div>
+  <!-- <p class="subtitle">{subtitle}</p> -->
+
+  <!--
+    需要作者栏 / arXiv / Code 按钮时在这里加，例如：
+    <div class="resources-section">
+      <a href="https://arxiv.org/abs/xxxx.xxxxx">Paper</a>
+      <a href="https://github.com/SwanFastWorldPlanner/xxx">Code</a>
+    </div>
+  -->
+</section>
+
+<style>
+  /* SWAN 的来源字母：与摘要中方法名的处理保持一致 */
+  .main-title .acronym {
+    color: #c0392b;
+  }
+
+  /* 可选的渐变高亮样式：给某个词加 class="adaptively-text" 即可使用 */
+  .adaptively-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1.05em;
+    animation: adaptiveGlow 3s ease-in-out infinite;
+    display: inline-block;
+    position: relative;
+  }
+
+  @keyframes adaptiveGlow {
+    0%, 100% { filter: brightness(1); transform: scale(1); }
+    50% { filter: brightness(1.2); transform: scale(1.02); }
+  }
+</style>

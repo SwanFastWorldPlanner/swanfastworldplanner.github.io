@@ -1,0 +1,175 @@
+---
+// PretrainingComparison.astro - 上下两行的 A/B 对比版块
+// 用法：把 mp4 放进 public/demos/，然后往下面数组里加一项即可。
+const sectionTitle = "TODO: 对比实验版块标题";
+const topLabel = "TODO: A 组";      // 上面一行的标签
+const bottomLabel = "TODO: B 组";   // 下面一行的标签
+
+/** @type {{ robot: string; task: string; top: string; bottom: string }[]} */
+const comparisons = [
+  // 示例（取消注释并改成你自己的文件）：
+  // { robot: "Go1 Quadruped", task: "Walk Straight",
+  //   top: "/demos/go1_with.mp4", bottom: "/demos/go1_without.mp4" },
+];
+---
+
+<section id="pretraining" class="content-section pretraining-section">
+  <div class="section-container">
+    <div class="pretraining-comparison">
+      <h3 class="section-title-left">{sectionTitle}</h3>
+
+      {comparisons.length === 0 && (
+        <div class="video-placeholder">
+          把对比视频放进 <code>public/demos/</code>，再到
+          <code>src/components/PretrainingComparison.astro</code> 的 <code>comparisons</code> 数组里加一项
+        </div>
+      )}
+
+      {comparisons.map((comp) => (
+        <div class="comparison-block">
+          <h3 class="robot-title">{comp.robot} <span class="task-label">({comp.task})</span></h3>
+
+          <div class="video-comparison-vertical">
+            <div class="video-row">
+              <div class="row-label with">{topLabel}</div>
+              <div class="video-wrapper">
+                <video autoplay loop muted playsinline>
+                  <source src={comp.top} type="video/mp4" />
+                </video>
+              </div>
+            </div>
+
+            <div class="video-row">
+              <div class="row-label without">{bottomLabel}</div>
+              <div class="video-wrapper">
+                <video autoplay loop muted playsinline>
+                  <source src={comp.bottom} type="video/mp4" />
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pretraining-section .section-container {
+    max-width: 1400px;
+  }
+
+  .section-title-left {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2a2f6c;
+    margin: 0 0 2rem 0;
+    text-align: left;
+  }
+
+  .pretraining-comparison {
+    margin-top: 0;
+  }
+
+  .comparison-block {
+    margin-bottom: 2.5rem;
+  }
+
+  .comparison-block:last-child {
+    margin-bottom: 0;
+  }
+
+  .robot-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2a2f6c;
+    margin: 0 0 1rem 0;
+    text-align: left;
+  }
+
+  .task-label {
+    font-weight: 400;
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .video-comparison-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .video-row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .row-label {
+    width: 140px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 8px 0 0 8px;
+    text-align: center;
+  }
+
+  .row-label.without {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  }
+
+  .row-label.with {
+    background: linear-gradient(135deg, #2a2f6c 0%, #3f4d91 100%);
+  }
+
+  .video-wrapper {
+    flex: 1;
+    background: #1a1a2e;
+    border-radius: 0 8px 8px 0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .video-wrapper video {
+    width: 100%;
+    display: block;
+  }
+
+  .video-placeholder {
+    border: 2px dashed #c3c7e0;
+    border-radius: 12px;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    background: #fafbff;
+  }
+
+  .video-placeholder code {
+    background: #eceefb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #2a2f6c;
+  }
+
+  @media (max-width: 768px) {
+    .video-row {
+      flex-direction: column;
+    }
+
+    .row-label {
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .video-wrapper {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+</style>

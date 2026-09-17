@@ -1,0 +1,163 @@
+---
+// RealWorldDemo.astro - 左右并排的两路对比视频
+// 用法：把 mp4 放进 public/demos/，再填下面的 leftVideo / rightVideo。
+const sectionTitle = "TODO: 并排对比版块标题";
+
+const leftLabel = "TODO: Baseline 名称";
+const rightLabel = "TODO: Ours";
+const leftVideo = "";   // 例如 "/demos/baseline.mp4"，留空则显示占位框
+const rightVideo = "";  // 例如 "/demos/ours.mp4"
+const speedBadge = "";  // 例如 "2x"，留空则不显示角标
+
+const description = "TODO: 这一段写这个对比说明了什么结论。";
+---
+
+<section id="realworld" class="content-section realworld-section">
+  <div class="section-container">
+    <h3 class="section-title-left">{sectionTitle}</h3>
+
+    <div class="comparison-row">
+      <div class="video-block">
+        <div class="video-label baseline-label">{leftLabel}</div>
+        {leftVideo ? (
+          <div class="video-crop">
+            <video autoplay controls muted playsinline>
+              <source src={leftVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {speedBadge && <span class="speed-badge">{speedBadge}</span>}
+          </div>
+        ) : (
+          <div class="video-placeholder">填 <code>leftVideo</code></div>
+        )}
+      </div>
+
+      <div class="video-block">
+        <div class="video-label ours-label"><span class="ours-highlight">{rightLabel}</span></div>
+        {rightVideo ? (
+          <div class="video-crop">
+            <video autoplay controls muted playsinline>
+              <source src={rightVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {speedBadge && <span class="speed-badge">{speedBadge}</span>}
+          </div>
+        ) : (
+          <div class="video-placeholder">填 <code>rightVideo</code></div>
+        )}
+      </div>
+    </div>
+
+    <div class="section-description">{description}</div>
+  </div>
+</section>
+
+<style>
+  .realworld-section .section-container {
+    max-width: 1400px;
+  }
+
+  .section-title-left {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2a2f6c;
+    margin: 0 0 2rem 0;
+    text-align: left;
+  }
+
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .video-block {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .video-label {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+  }
+
+  .baseline-label {
+    background: #6b7280;
+    color: white;
+  }
+
+  .ours-label {
+    background: #2a2f6c;
+    color: white;
+  }
+
+  .ours-highlight {
+    background: #facc15;
+    color: #1a1a2e;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .video-crop {
+    width: 100%;
+    background: #1a1a2e;
+    position: relative;
+  }
+
+  .video-crop video {
+    width: 100%;
+    display: block;
+  }
+
+  .speed-badge {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .video-placeholder {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    font-size: 0.95rem;
+    background: #fafbff;
+    border-top: 2px dashed #c3c7e0;
+  }
+
+  .video-placeholder code {
+    background: #eceefb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    color: #2a2f6c;
+  }
+
+  .section-description {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: left;
+    max-width: 1400px;
+    width: 100%;
+    margin: 1.5rem auto 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .comparison-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

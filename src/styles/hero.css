@@ -1,0 +1,153 @@
+/* Hero Section styles */
+.hero-section {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.title-wrapper { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 1rem; 
+  margin-bottom: 0.5rem; 
+}
+
+.title-icon {
+  height: 65px;
+  width: auto;
+  flex-shrink: 0;
+  /* filter: brightness(1.0) contrast(1.5) saturate(1.0) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25)); */
+  /* Enhanced visibility with brightness, contrast, saturation and shadow */
+}
+
+.main-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+  max-width: min(100%, 24em);   /* 让长标题在合理处换行，而不是拉满整行 */
+  text-wrap: balance;           /* 支持的浏览器会把各行长度配平 */
+  margin: 0 auto;
+  flex-shrink: 1;               /* 覆盖 global.css 的 flex-shrink:0，否则长标题会撑破容器 */
+  min-height: 0;                /* 同上，global.css 的 min-height:1.2em 对多行标题无意义 */
+}
+
+.subtitle {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0;
+}
+
+.description {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+}
+
+.desc-light {
+  color: #777;
+}
+
+.desc-dark {
+  color: #555;
+}
+
+.cta-button { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 0.6em; 
+  background-color: #2d333a; 
+  padding: 0.9rem 1.6rem; 
+  border-radius: 30px; 
+  text-decoration: none; 
+  border: none; 
+  box-shadow: none; 
+  cursor: pointer; 
+  transition: background-color 0.2s ease, transform 0.2s ease; 
+}
+
+.button-icon { 
+  height: 1.4em; 
+  width: auto; 
+  fill: white; 
+}
+
+.button-text { 
+  background: white; 
+  -webkit-background-clip: text; 
+  background-clip: text; 
+  color: transparent; 
+  -webkit-text-fill-color: transparent; 
+  font-size: 1.1rem; 
+  font-weight: 600; 
+  display: inline-block; 
+}
+
+.cta-button:hover { 
+  background-color: #444; 
+  transform: translateY(-2px); 
+  box-shadow: none; 
+}
+
+.diagram-placeholder {
+  margin-top: 5rem;
+}
+
+.diagram-placeholder p {
+  margin-top: 0.8rem;
+}
+
+/* Authors section in Hero component */
+.authors-section {
+  margin-top: 3rem;
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-section .authors-list {
+  margin-bottom: 0;
+}
+
+.hero-section .equal-contribution {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .title-wrapper {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .main-title {
+    font-size: 1.6rem;   /* 原为 3rem —— 比桌面端还大，长标题会溢出 */
+  }
+  
+  .subtitle {
+    font-size: 2rem;
+  }
+  
+  .description {
+    font-size: 1.25rem;
+  }
+  
+  .resources-buttons {
+    flex-direction: column;
+  }
+} 
