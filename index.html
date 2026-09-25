@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SWAN</title>
+  <meta name="description" content="SWAN represents and improves complete H-step planner proposals with k-MPPI, an MFA action-chunk policy, and Advantage-Guided Proposal Optimization.">
+  <meta name="theme-color" content="#070b14">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SWAN">
+  <meta property="og:description" content="Advantage-aware action-chunk policy for online planning.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SWAN">
+  <meta name="twitter:description" content="Advantage-aware action-chunk policy for online planning.">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/web/favicon-detail-64.png">
+  <link
+    rel="preload"
+    as="image"
+    type="image/webp"
+    imagesrcset="assets/icons/web/logo-detail-104.webp 104w, assets/icons/web/logo-detail-140.webp 140w, assets/icons/web/logo-detail-208.webp 208w, assets/icons/web/logo-detail-280.webp 280w, assets/icons/web/logo-detail-312.webp 312w, assets/icons/web/logo-detail-420.webp 420w, assets/icons/web/logo-detail-560.webp 560w"
+    imagesizes="(max-width: 680px) 104px, 140px"
+    fetchpriority="high"
+  >
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#top">Skip to content</a>
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a class="brand" href="#top" aria-label="SWAN home">
+      <picture class="logo-picture">
+        <source
+          type="image/webp"
+          srcset="assets/icons/web/logo-detail-44.webp 44w, assets/icons/web/logo-detail-88.webp 88w, assets/icons/web/logo-detail-132.webp 132w, assets/icons/web/logo-detail-176.webp 176w"
+          sizes="2.7rem"
+        >
+        <img
+          class="brand-logo"
+          src="assets/icons/web/logo-detail-88.png"
+          srcset="assets/icons/web/logo-detail-44.png 44w, assets/icons/web/logo-detail-88.png 88w, assets/icons/web/logo-detail-132.png 132w, assets/icons/web/logo-detail-176.png 176w"
+          sizes="2.7rem"
+          width="96" height="96"
+          loading="eager" decoding="async"
+          alt="" aria-hidden="true"
+        >
+      </picture>
+      <strong>SWAN</strong>
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      aria-controls="primary-links"
+      data-nav-toggle hidden
+    >
+      <span></span>
+    </button>
+
+    <div id="primary-links" class="nav-links" data-nav-links>
+      <a class="nav-link" href="#kmppi-demo" data-section="kmppi-demo">k-MPPI Visualization</a>
+      <a class="nav-link" href="#simulation-evaluation" data-section="simulation-evaluation">Simulation</a>
+      <a class="nav-link" href="#real-world-deployment" data-section="real-world-deployment">Real World</a>
+    </div>
+  </nav>
+</header>
+<main id="top">
+<section id="hero" class="hero-section" aria-labelledby="project-title">
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <picture class="logo-picture">
+      <source
+        type="image/webp"
+        srcset="assets/icons/web/logo-detail-104.webp 104w, assets/icons/web/logo-detail-140.webp 140w, assets/icons/web/logo-detail-208.webp 208w, assets/icons/web/logo-detail-280.webp 280w, assets/icons/web/logo-detail-312.webp 312w, assets/icons/web/logo-detail-420.webp 420w, assets/icons/web/logo-detail-560.webp 560w"
+        sizes="(max-width: 680px) 104px, 140px"
+      >
+      <img
+        class="hero-logo"
+        src="assets/icons/web/logo-detail-280.png"
+        srcset="assets/icons/web/logo-detail-104.png 104w, assets/icons/web/logo-detail-140.png 140w, assets/icons/web/logo-detail-208.png 208w, assets/icons/web/logo-detail-280.png 280w, assets/icons/web/logo-detail-312.png 312w, assets/icons/web/logo-detail-420.png 420w, assets/icons/web/logo-detail-560.png 560w"
+        sizes="(max-width: 680px) 104px, 140px"
+        width="320" height="320"
+        loading="eager" decoding="async" fetchpriority="high"
+        alt="SWAN logo"
+      >
+    </picture>
+
+    <h1 id="project-title" class="main-title">
+      <span class="title-line">Fa<span class="acronym">S</span>t <span class="acronym">W</span>orld Pl<span class="acronym">AN</span>ner: Advantage-Aware</span><br />
+      <span class="title-line">Action-Chunk Policy for Online Planning</span>
+    </h1>
+
+    <a class="explore-link" href="#demo-navigation">
+      Explore demonstrations
+      <span aria-hidden="true">&#8595;</span>
+    </a>
+  </div>
+</section>
+<section id="demo-navigation" class="demo-navigation" aria-labelledby="demo-navigation-title">
+  <div class="navigation-inner">
+    <div class="navigation-heading">
+      <p class="section-kicker">SWAN / Demonstrations</p>
+      <h2 id="demo-navigation-title"><span>Better Proposals.</span> <strong>Faster Planning.</strong></h2>
+      <p>Multimodal search and action-chunk policies, from simulation to real-world control.</p>
+    </div>
+    <div class="navigation-grid">
+      <article class="navigation-card trajectory">
+        <div class="card-topline"><span>01</span><small>Planning mechanics</small></div>
+        <div class="card-visual" data-entry-preview>
+          <video loop muted playsinline preload="none" width="960" height="540" poster="assets/previews/entry-kmppi.webp" data-preview-src="assets/previews/entry-kmppi.mp4" tabindex="-1"></video>
+          <button class="preview-toggle" type="button" data-preview-toggle data-preview-label="k-MPPI visualization preview" aria-label="Play k-MPPI visualization preview" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button>
+        </div>
+        <a class="card-copy" href="#kmppi-demo" aria-labelledby="entry-kmppi-title"><h3 id="entry-kmppi-title">k-MPPI Visualization</h3><p>This demo shows how k-MPPI maintains multiple search modes through local refinement and global exploration.</p><span class="card-link">Jump to section <b aria-hidden="true">&#8600;</b></span></a>
+      </article>
+      <article class="navigation-card simulation">
+        <div class="card-topline"><span>02</span><small>G1 + Go2 simulation</small></div>
+        <div class="card-visual" data-entry-preview>
+          <video loop muted playsinline preload="none" width="960" height="540" poster="assets/previews/entry-simulation.webp" data-preview-src="assets/previews/entry-simulation.mp4" tabindex="-1"></video>
+          <div class="entry-robot-labels" aria-hidden="true"><span>Go2</span><span>G1</span></div>
+          <button class="preview-toggle" type="button" data-preview-toggle data-preview-label="simulation preview" aria-label="Play simulation preview" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button>
+        </div>
+        <a class="card-copy" href="#simulation-evaluation" aria-labelledby="entry-simulation-title"><h3 id="entry-simulation-title">Simulation Evaluation</h3><p>Compare SWAN with BMPC on simulated Unitree G1 and Go2 velocity-tracking tasks.</p><span class="card-link">Jump to section <b aria-hidden="true">&#8600;</b></span></a>
+      </article>
+      <article class="navigation-card robot">
+        <div class="card-topline"><span>03</span><small>Unitree Go2</small></div>
+        <div class="card-visual" data-entry-preview>
+          <video loop muted playsinline preload="none" width="960" height="540" data-preview-src="assets/previews/entry-real-world.mp4" data-preview-desktop-src="assets/previews/entry-real-world-desktop.mp4" tabindex="-1"></video>
+          <picture class="entry-poster">
+            <source media="(min-width: 921px)" srcset="assets/previews/entry-real-world-desktop.webp">
+            <img src="assets/previews/entry-real-world.webp" width="960" height="540" loading="lazy" decoding="async" alt="">
+          </picture>
+          <div class="entry-quad-labels" aria-hidden="true"><span>Figure-8</span><span>Forward</span><span>Lateral</span><span>External Pushes</span></div>
+          <button class="preview-toggle" type="button" data-preview-toggle data-preview-label="real-world preview" aria-label="Play real-world preview" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button>
+        </div>
+        <a class="card-copy" href="#real-world-deployment" aria-labelledby="entry-real-world-title"><h3 id="entry-real-world-title">Real-World Deployment</h3><p>Zero-shot sim-to-real transfer to Unitree Go2, demonstrating velocity tracking and stable locomotion under external pushes.</p><span class="card-link">Jump to section <b aria-hidden="true">&#8600;</b></span></a>
+      </article>
+    </div>
+  </div>
+</section>
+<div class="showcase-list">
+<section id="kmppi-demo" class="showcase-section kmppi-section" aria-labelledby="kmppi-demo-title">
+  <div class="kmppi-inner">
+    <div class="kmppi-intro">
+      <header class="kmppi-copy">
+        <div class="showcase-index"><span>01</span><i></i><small>Planning mechanics</small></div>
+        <h2 id="kmppi-demo-title">k-MPPI<br> Visualization</h2>
+        <p class="kmppi-summary">MPPI uses one global search. k-MPPI combines local refinement and global exploration to maintain multiple search modes.</p>
+      </header>
+      <div class="kmppi-player" data-entry-preview data-demo-player>
+        <div class="kmppi-screen">
+          <video loop muted playsinline preload="none" width="1920" height="1080" poster="assets/previews/entry-kmppi.webp" data-preview-src="assets/kmppi/visualization.mp4" aria-label="MPPI and k-MPPI search on a two-dimensional multimodal landscape" tabindex="-1"></video>
+          <button class="kmppi-surface" type="button" data-demo-surface aria-label="Play k-MPPI visualization" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="24" height="24" alt=""></span></button>
+        </div>
+        <div class="kmppi-controls" data-demo-controls hidden>
+          <button class="preview-toggle" type="button" data-preview-toggle data-preview-label="k-MPPI visualization" aria-label="Play k-MPPI visualization" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button>
+          <span class="kmppi-time" data-demo-time aria-hidden="true">00:00 / 01:34</span>
+          <input class="kmppi-seek" data-demo-seek type="range" min="0" max="94" value="0" step="0.1" aria-label="Video position" aria-valuetext="0 minutes 0 seconds" disabled>
+          <button class="media-icon-button" data-demo-fullscreen type="button" aria-label="Enter fullscreen" title="Enter fullscreen"><img src="assets/icons/maximize.svg" width="20" height="20" alt=""></button>
+        </div>
+        <a class="kmppi-fallback" data-demo-fallback href="assets/kmppi/visualization.mp4">Open visualization video</a>
+        <p class="kmppi-video-error" data-demo-error role="status" hidden>Video could not be played. <a href="assets/kmppi/visualization.mp4">Open video</a></p>
+      </div>
+    </div>
+    <div class="kmppi-gallery" aria-labelledby="kmppi-gallery-title">
+      <h3 id="kmppi-gallery-title">Inside the search</h3>
+      <div class="kmppi-grid">
+        <figure>
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/01_initial.png" aria-labelledby="kmppi-stage-1">
+            <img src="assets/kmppi/panels/01_initial.webp" width="580" height="495" loading="lazy" decoding="async" alt="MPPI and k-MPPI begin with the same 512 candidates on a two-mode return landscape.">
+            <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
+          </a>
+          <figcaption id="kmppi-stage-1"><span>01</span><strong>Initial</strong></figcaption>
+          <template><p>The illustration starts from the same pool of 512 candidates on a shared two-mode return landscape. MPPI uses one global search distribution; k-MPPI maintains two local searches alongside a global search.</p><p>The contours and lower marginal-density plots describe the search distributions. They are not the final weighted proposal.</p></template>
+        </figure>
+        <figure>
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/02_select.png" aria-labelledby="kmppi-stage-2">
+            <img src="assets/kmppi/panels/02_select.webp" width="580" height="495" loading="lazy" decoding="async" alt="Global and local searches select their elite sets; these sets can overlap.">
+            <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
+          </a>
+          <figcaption id="kmppi-stage-2"><span>02</span><strong>Select elites</strong></figcaption>
+          <template><p>MPPI selects 64 elites from the global pool of 512 candidates. In k-MPPI, each local search selects 64 elites from its 128 candidates, while the global search ranks all 512 candidates and also retains 64.</p><p>These elite sets may overlap. The global ranking reuses the shared pool; it does not introduce an additional pool of 512 rollouts.</p></template>
+        </figure>
+        <figure>
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/03_update.png" aria-labelledby="kmppi-stage-3">
+            <img src="assets/kmppi/panels/03_update.webp" width="580" height="495" loading="lazy" decoding="async" alt="Before-and-after means and standard deviations for the global and local Gaussian searches.">
+            <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
+          </a>
+          <figcaption id="kmppi-stage-3"><span>03</span><strong>Update &mu;, &sigma;</strong></figcaption>
+          <template><p>The selected elites guide updates to the means and standard deviations of the search Gaussians. Grey contours show the distributions before the update; colored contours show them afterward.</p><p>The candidate locations remain fixed in this panel. The changing contours and marginal densities isolate how the global and local searches are refined.</p></template>
+        </figure>
+        <figure>
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/04_iteration2.png" aria-labelledby="kmppi-stage-4">
+            <img src="assets/kmppi/panels/04_iteration2.webp" width="580" height="495" loading="lazy" decoding="async" alt="After two iterations, k-MPPI's local searches remain near different return modes.">
+            <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
+          </a>
+          <figcaption id="kmppi-stage-4"><span>04</span><strong>After iteration 2</strong></figcaption>
+          <template><p>After two refinement iterations, k-MPPI's local searches remain concentrated around distinct high-return regions, while its global search covers a broader region. MPPI continues with one global search.</p><p>This is an intermediate snapshot. Two further refinement iterations follow before elite-set replacement, completing <i>M</i> = 4 iterations in this illustration.</p></template>
+        </figure>
+        <figure>
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/05_replace.png" aria-labelledby="kmppi-stage-5">
+            <img src="assets/kmppi/panels/05_replace.webp" width="580" height="495" loading="lazy" decoding="async" alt="After iteration four, the global elite set replaces the second local elite set, with 15 shared and 49 incoming samples.">
+            <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
+          </a>
+          <figcaption id="kmppi-stage-5"><span>05</span><strong>Replace</strong></figcaption>
+          <template><p>After the fourth iteration, the global source has greater mass than the matched second local source in this example (0.573 versus 0.247). The global elite set is therefore assigned to the second local slot, while the first local set is retained.</p><p>The old and incoming sets share 15 samples; 49 samples are new to that slot. This panel shows elite-set replacement, not another Gaussian-fitting step. The two weight lanes are normalized separately for comparison.</p></template>
+        </figure>
+        <figure>
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/06_final.png" aria-labelledby="kmppi-stage-6">
+            <img src="assets/kmppi/panels/06_final.webp" width="580" height="495" loading="lazy" decoding="async" alt="Final discrete support: MPPI retains 64 samples in one region; k-MPPI retains 128 with mass in both modes.">
+            <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
+          </a>
+          <figcaption id="kmppi-stage-6"><span>06</span><strong>Final</strong></figcaption>
+          <template><p>The final display shows the retained samples and their joint weights: 64 samples for MPPI and 128 for k-MPPI. In this example, k-MPPI preserves both return modes, with 40.8% and 59.2% of the total weight.</p><p>This is a weighted discrete proposal, not a fitted Gaussian. The lower plots show sample weights, whereas the earlier lower plots show search densities.</p></template>
+        </figure>
+      </div>
+      <p class="kmppi-note">2D mechanism illustration &middot; <i>K</i> = 2 &middot; <i>M</i> = 4</p>
+    </div>
+  </div>
+</section>
+<section id="simulation-evaluation" class="showcase-section simulation-showcase" aria-labelledby="simulation-evaluation-title">
+  <div class="simulation-inner">
+    <header class="simulation-heading">
+      <div class="showcase-index"><span>02</span><i></i><small>Simulation evaluation</small></div>
+      <div class="simulation-heading-copy"><h2 id="simulation-evaluation-title">Velocity tracking in simulation.</h2><p>SWAN is compared with BMPC, the best-performing baseline, on figure-8 and straight-line tracking tasks for simulated Unitree Go2 and G1 robots.</p></div>
+    </header>
+    <div class="simulation-comparison-grid"><article class="tracking-block" data-tracking-group>
+  <div class="tracking-heading"><h3>Unitree Go2 <span>&middot;</span> Figure-8 tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree Go2 figure-8 comparison previews" aria-label="Play Unitree Go2 figure-8 comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+  <div class="method-stack">
+    <figure class="method-video swan-video">
+      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-swan-figure8.jpg" data-preview-src="assets/videos/go2-swan-figure8-preview.mp4" aria-label="Unitree Go2 - Figure-8 tracking - SWAN"></video>
+      <a class="video-open" href="assets/videos/go2-swan-figure8-full.mp4" data-video-title="Unitree Go2 - Figure-8 tracking - SWAN" aria-label="Play Unitree Go2 - Figure-8 tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+<figure class="method-video bmpc-video">
+      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-bmpc-figure8.jpg" data-preview-src="assets/videos/go2-bmpc-figure8-preview.mp4" aria-label="Unitree Go2 - Figure-8 tracking - BMPC"></video>
+      <a class="video-open" href="assets/videos/go2-bmpc-figure8-full.mp4" data-video-title="Unitree Go2 - Figure-8 tracking - BMPC" aria-label="Play Unitree Go2 - Figure-8 tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+  </div>
+</article>
+<article class="tracking-block" data-tracking-group>
+  <div class="tracking-heading"><h3>Unitree Go2 <span>&middot;</span> Straight-line tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree Go2 straight-line comparison previews" aria-label="Play Unitree Go2 straight-line comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+  <div class="method-stack">
+    <figure class="method-video swan-video">
+      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-swan-straight.jpg" data-preview-src="assets/videos/go2-swan-straight-preview.mp4" aria-label="Unitree Go2 - Straight-line tracking - SWAN"></video>
+      <a class="video-open" href="assets/videos/go2-swan-straight-full.mp4" data-video-title="Unitree Go2 - Straight-line tracking - SWAN" aria-label="Play Unitree Go2 - Straight-line tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+<figure class="method-video bmpc-video">
+      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-bmpc-straight.jpg" data-preview-src="assets/videos/go2-bmpc-straight-preview.mp4" aria-label="Unitree Go2 - Straight-line tracking - BMPC"></video>
+      <a class="video-open" href="assets/videos/go2-bmpc-straight-full.mp4" data-video-title="Unitree Go2 - Straight-line tracking - BMPC" aria-label="Play Unitree Go2 - Straight-line tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+  </div>
+</article>
+<article class="tracking-block" data-tracking-group>
+  <div class="tracking-heading"><h3>Unitree G1 <span>&middot;</span> Figure-8 tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree G1 figure-8 comparison previews" aria-label="Play Unitree G1 figure-8 comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+  <div class="method-stack">
+    <figure class="method-video swan-video">
+      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-swan-figure8.jpg" data-preview-src="assets/videos/g1-swan-figure8-preview.mp4" aria-label="Unitree G1 - Figure-8 tracking - SWAN"></video>
+      <a class="video-open" href="assets/videos/g1-swan-figure8-full.mp4" data-video-title="Unitree G1 - Figure-8 tracking - SWAN" aria-label="Play Unitree G1 - Figure-8 tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+<figure class="method-video bmpc-video">
+      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-bmpc-figure8.jpg" data-preview-src="assets/videos/g1-bmpc-figure8-preview.mp4" aria-label="Unitree G1 - Figure-8 tracking - BMPC"></video>
+      <a class="video-open" href="assets/videos/g1-bmpc-figure8-full.mp4" data-video-title="Unitree G1 - Figure-8 tracking - BMPC" aria-label="Play Unitree G1 - Figure-8 tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+  </div>
+</article>
+<article class="tracking-block" data-tracking-group>
+  <div class="tracking-heading"><h3>Unitree G1 <span>&middot;</span> Straight-line tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree G1 straight-line comparison previews" aria-label="Play Unitree G1 straight-line comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+  <div class="method-stack">
+    <figure class="method-video swan-video">
+      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-swan-straight.jpg" data-preview-src="assets/videos/g1-swan-straight-preview.mp4" aria-label="Unitree G1 - Straight-line tracking - SWAN"></video>
+      <a class="video-open" href="assets/videos/g1-swan-straight-full.mp4" data-video-title="Unitree G1 - Straight-line tracking - SWAN" aria-label="Play Unitree G1 - Straight-line tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+<figure class="method-video bmpc-video">
+      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
+      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-bmpc-straight.jpg" data-preview-src="assets/videos/g1-bmpc-straight-preview.mp4" aria-label="Unitree G1 - Straight-line tracking - BMPC"></video>
+      <a class="video-open" href="assets/videos/g1-bmpc-straight-full.mp4" data-video-title="Unitree G1 - Straight-line tracking - BMPC" aria-label="Play Unitree G1 - Straight-line tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
+    </figure>
+  </div>
+</article></div>
+  </div>
+</section>
+<section id="real-world-deployment" class="showcase-section" aria-labelledby="real-world-deployment-title">
+  <div class="showcase-inner">
+    <div class="showcase-copy">
+      <div class="showcase-index"><span>03</span><i></i><small>Real-world deployment</small></div>
+      <h2 id="real-world-deployment-title">From world-model planning to a Unitree Go2.</h2><p>The same planning framework transfers to physical control, producing stable velocity-tracking locomotion under a high-frequency control loop.</p>
+      <div class="tag-list" aria-label="Real-world deployment highlights"><span>Unitree Go2</span><span>Velocity tracking</span><span>High-frequency control</span></div>
+    </div>
+    <div class="media-frame deployment">
+      <div class="media-topbar"><span><i></i> Media preview</span><small>03 / 03</small></div>
+      <div class="media-placeholder" role="img" aria-label="Unitree Go2 deployment. Real-world locomotion video coming soon.">
+        <div class="visual-field" aria-hidden="true"><div class="deployment-visual"><span class="platform"></span><span class="body"></span><i class="leg one"></i><i class="leg two"></i><i class="leg three"></i><i class="leg four"></i><b></b></div></div>
+        <div class="placeholder-copy"><span>Coming soon</span><strong>Unitree Go2 deployment</strong><small>Real-world locomotion video coming soon</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</main>
+<dialog class="video-lightbox" id="simulation-video-lightbox" aria-labelledby="simulation-video-lightbox-title">
+  <div class="lightbox-header">
+    <div><span>Simulation playback</span><strong id="simulation-video-lightbox-title"></strong></div>
+    <div class="lightbox-actions"><a class="lightbox-direct" href="#" target="_blank" rel="noopener">Open video</a><button class="lightbox-close" type="button" aria-label="Close fullscreen video">&times;</button></div>
+  </div>
+  <div class="lightbox-body"><video class="lightbox-player" controls loop muted playsinline preload="none"></video></div>
+  <p class="lightbox-error" role="status" hidden>Video could not be played. Try the video link above.</p>
+</dialog>
+<dialog class="panel-lightbox" id="kmppi-panel-lightbox" aria-labelledby="panel-viewer-title">
+  <div class="panel-viewer-header">
+    <span>k-MPPI Visualization</span>
+    <div class="panel-viewer-actions">
+      <a class="media-icon-button" data-panel-original href="assets/kmppi/panels/01_initial.png" target="_blank" rel="noopener" aria-label="Open full-resolution image" title="Open full-resolution image"><img src="assets/icons/maximize.svg" width="20" height="20" alt=""></a>
+      <button class="media-icon-button" data-panel-close type="button" aria-label="Close image" title="Close image"><img src="assets/icons/x.svg" width="22" height="22" alt=""></button>
+    </div>
+  </div>
+  <div class="panel-image-area"><img class="panel-viewer-image" width="1160" height="990" alt="" data-panel-image><p class="panel-image-status" data-panel-status role="status" hidden>Loading image...</p></div>
+  <div class="panel-viewer-caption">
+    <div class="panel-caption-heading">
+      <div aria-live="polite" aria-atomic="true"><span class="panel-counter" data-panel-counter>1 / 6</span><h3 id="panel-viewer-title">Initial</h3></div>
+      <div class="panel-viewer-actions">
+        <button class="media-icon-button" data-panel-prev type="button" aria-label="Previous image" title="Previous image"><img src="assets/icons/chevron-left.svg" width="24" height="24" alt=""></button>
+        <button class="media-icon-button" data-panel-next type="button" aria-label="Next image" title="Next image"><img src="assets/icons/chevron-right.svg" width="24" height="24" alt=""></button>
+      </div>
+    </div>
+    <div class="panel-description" data-panel-description></div>
+  </div>
+</dialog>
+<footer class="site-footer"><div><strong>SWAN</strong><span>Fast World Planner &middot; Advantage-Aware Action-Chunk Policy for Online Planning</span></div><a href="#top">Back to top &#8593;</a></footer>
+</body>
+</html>
+

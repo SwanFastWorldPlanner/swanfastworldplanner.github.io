@@ -1,0 +1,27 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Local checks, drafts, and temporary output
+/design-qa.md
+/paper.pdf
+/test-results/
+/playwright-report/
+/tmp/
+/_site/
+*.log
+
+# Tool caches
+.cache/
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
