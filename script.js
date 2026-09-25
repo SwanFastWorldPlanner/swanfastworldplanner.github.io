@@ -29,8 +29,13 @@
   const groups = [...document.querySelectorAll('[data-tracking-group], [data-entry-preview]')];
   const previews = [...document.querySelectorAll('[data-preview-src]')];
   const lightbox = document.querySelector('#simulation-video-lightbox');
+  const simulationOverview = document.querySelector('[data-simulation-overview]');
   const player = lightbox.querySelector('.lightbox-player');
   const title = lightbox.querySelector('#simulation-video-lightbox-title');
+  const lightboxContext = lightbox.querySelector('[data-lightbox-context]');
+  const realMontage = document.querySelector('[data-real-montage]');
+  const hoverVideo = document.querySelector('[data-real-hover]');
+  const hoverPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const panelLightbox = document.querySelector('#kmppi-panel-lightbox');
   const demoFrame = document.querySelector('[data-demo-player]');
   const demoVideo = demoFrame.querySelector('video');
@@ -53,6 +58,19 @@
   };
   let enteredFullscreen = false;
   let closing = false;
+  let hoverTarget = null;
+  let hoverTimer = null;
+  const stopRealHover = () => {
+    window.clearTimeout(hoverTimer);
+    hoverTarget?.classList.remove('is-previewing');
+    hoverTarget = null;
+    hoverVideo.hidden = true;
+    if (hoverVideo.hasAttribute('src')) {
+      hoverVideo.pause();
+      hoverVideo.removeAttribute('src');
+      hoverVideo.load();
+    }
+  };
 
   const previewsPaused = group => userPaused.get(group) ?? (reducedMotion.matches || Boolean(connection?.saveData));
   const syncPreviewControl = group => {
@@ -81,7 +99,7 @@
     const group = video.closest('[data-tracking-group], [data-entry-preview]');
     video.addEventListener('loadeddata', () => video.classList.add('has-frame'));
     video.addEventListener('playing', () => {
-      if (previewsPaused(group) || document.hidden || dialogIsOpen()) {
+      if (previewsPaused(group) || group.closest('[hidden]') || document.hidden || dialogIsOpen()) {
         video.pause();
         return;
       }
@@ -105,10 +123,16 @@
   demoVideo.addEventListener('error', () => { demoError.hidden = false; });
 
   const updatePreviews = () => {
+    if (hoverTarget && (document.hidden || dialogIsOpen() || closing || demoExpanded ||
+        !visibleGroups.get(realMontage) || previewsPaused(realMontage) ||
+        reducedMotion.matches || connection?.saveData || !hoverPointer.matches)) stopRealHover();
     groups.forEach(syncPreviewControl);
+    const comparisonInView = [...visibleGroups.entries()].some(([group, ratio]) =>
+      group.hasAttribute('data-simulation-comparison') && ratio > .5 && !group.closest('[hidden]') && !previewsPaused(group));
     const candidates = document.hidden || dialogIsOpen() || closing ? [] :
       (demoExpanded ? [[demoFrame, 1]] : [...visibleGroups.entries()])
-        .filter(([group, ratio]) => ratio > 0 && !previewsPaused(group))
+        .filter(([group, ratio]) => ratio > 0 && !group.closest('[hidden]') && !previewsPaused(group) &&
+          !(group === simulationOverview && comparisonInView))
         .sort((a, b) => {
           const distance = group => Math.abs(group.getBoundingClientRect().top +
             group.getBoundingClientRect().height / 2 - window.innerHeight / 2);
@@ -116,16 +140,18 @@
         })
         .map(([group]) => group);
     const active = [];
-    let videoCount = 0;
-    // Entry tiles use one decoder; comparison groups keep their paired videos.
+    let videoCount = hoverVideo.hasAttribute('src') ? 1 : 0;
+    const maxVideos = narrowScreen.matches ? 2 : 4;
+    // Independent comparison players share the existing decoder budget.
     for (const group of candidates) {
-      if (active.length >= (narrowScreen.matches ? 1 : 3)) break;
+      if (videoCount >= maxVideos) break;
       const count = group.querySelectorAll('[data-preview-src]').length;
-      if (videoCount + count <= (narrowScreen.matches ? 2 : 4)) {
+      if (videoCount + count <= maxVideos) {
         active.push(group);
         videoCount += count;
       }
     }
+    if (hoverTarget && !active.includes(realMontage)) stopRealHover();
     groups.forEach(group => {
       group.querySelectorAll('[data-preview-src]').forEach(video => {
         const source = (!narrowScreen.matches && video.dataset.previewDesktopSrc) || video.dataset.previewSrc;
@@ -154,6 +180,39 @@
     });
   };
 
+  const simulationTablist = document.querySelector('[data-simulation-tabs]');
+  const simulationTabs = [...simulationTablist.querySelectorAll('[role="tab"]')];
+  const simulationPanels = [...document.querySelectorAll('[data-simulation-panel]')];
+  const selectSimulationTab = (tab, focus = false) => {
+    simulationTablist.style.setProperty('--simulation-tab-index', simulationTabs.indexOf(tab));
+    simulationTabs.forEach(item => {
+      const selected = item === tab;
+      item.setAttribute('aria-selected', String(selected));
+      item.tabIndex = selected ? 0 : -1;
+    });
+    simulationPanels.forEach(panel => {
+      panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      if (panel.hidden) {
+        panel.querySelectorAll('[data-tracking-group]').forEach(group => visibleGroups.delete(group));
+        panel.querySelectorAll('[data-preview-src]').forEach(stopPreview);
+      }
+    });
+    if (focus) tab.focus({ preventScroll: true });
+    updatePreviews();
+  };
+  simulationTablist.hidden = false;
+  simulationTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => selectSimulationTab(tab));
+    tab.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? simulationTabs.length - 1 :
+        (index + (event.key === 'ArrowRight' ? 1 : -1) + simulationTabs.length) % simulationTabs.length;
+      selectSimulationTab(simulationTabs[next], true);
+    });
+  });
+  selectSimulationTab(simulationTabs[0]);
+
   if ('IntersectionObserver' in window) {
     const navigationVisibility = new Map();
     const sectionObserver = new IntersectionObserver(entries => {
@@ -175,6 +234,7 @@
     groups.forEach(group => videoObserver.observe(group));
     previewToggles.forEach(toggle => { toggle.hidden = false; });
     demoFrame.querySelector('[data-demo-controls]').hidden = false;
+    document.querySelectorAll('[data-comparison-controls]').forEach(controls => { controls.hidden = false; });
     demoSurface.hidden = false;
     demoFrame.querySelector('[data-demo-fallback]').hidden = true;
   }
@@ -184,6 +244,45 @@
     updatePreviews();
   }));
   groups.forEach(syncPreviewControl);
+  const queueRealHover = target => {
+    stopRealHover();
+    if (!hoverPointer.matches || reducedMotion.matches || connection?.saveData ||
+        previewsPaused(realMontage) || dialogIsOpen() || document.hidden) return;
+    hoverTarget = target;
+    hoverTimer = window.setTimeout(() => {
+      if (hoverTarget !== target || !visibleGroups.get(realMontage)) return;
+      target.append(hoverVideo);
+      const source = target.dataset.hoverSrc;
+      hoverVideo.muted = true;
+      hoverVideo.src = source;
+      hoverVideo.load();
+      updatePreviews();
+      if (hoverTarget !== target) return;
+      void hoverVideo.play().catch(() => {
+        if (hoverTarget === target && hoverVideo.getAttribute('src') === source) stopRealHover();
+      });
+    }, 300);
+  };
+  document.querySelectorAll('[data-real-tile]').forEach(tile => {
+    tile.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'mouse' || event.pointerType === 'pen') queueRealHover(tile);
+    });
+    tile.addEventListener('pointerleave', () => {
+      if (hoverTarget === tile && !tile.matches(':focus-visible')) stopRealHover();
+    });
+    tile.addEventListener('focus', () => {
+      if (tile.matches(':focus-visible')) queueRealHover(tile);
+    });
+    tile.addEventListener('blur', () => { if (hoverTarget === tile) stopRealHover(); });
+  });
+  hoverVideo.addEventListener('loadeddata', () => {
+    if (!hoverTarget || hoverVideo.getAttribute('src') !== hoverTarget.dataset.hoverSrc || dialogIsOpen()) return;
+    hoverVideo.hidden = false;
+    hoverTarget.classList.add('is-previewing');
+  });
+  hoverVideo.addEventListener('error', stopRealHover);
+  hoverPointer.addEventListener('change', stopRealHover);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') stopRealHover(); });
   reducedMotion.addEventListener('change', updatePreviews);
   narrowScreen.addEventListener('change', updatePreviews);
   connection?.addEventListener('change', updatePreviews);
@@ -192,6 +291,7 @@
     updatePreviews();
   });
   window.addEventListener('pagehide', () => {
+    stopRealHover();
     previews.forEach(stopPreview);
     player.pause();
   });
@@ -214,7 +314,8 @@
     updatePreviews();
   };
 
-  document.querySelectorAll('.video-open').forEach(trigger => {
+  document.querySelectorAll('.video-open, [data-real-video-open]').forEach(trigger => {
+    trigger.setAttribute('aria-haspopup', 'dialog');
     trigger.addEventListener('click', event => {
       if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
           typeof lightbox.showModal !== 'function') return;
@@ -222,6 +323,10 @@
       if (dialogIsOpen() || closing) return;
       lastTrigger = trigger;
       title.textContent = trigger.dataset.videoTitle;
+      const realVideo = trigger.hasAttribute('data-real-video-open');
+      lightboxContext.textContent = realVideo ? 'Real-world playback' : 'Simulation playback';
+      lightbox.style.setProperty('--lightbox-aspect', trigger.dataset.videoAspect || (realVideo ? '16 / 9' : '16 / 15'));
+      player.muted = trigger.dataset.videoAudio !== 'true';
       directLink.href = trigger.href;
       errorMessage.hidden = true;
       lightbox.showModal();
@@ -260,6 +365,25 @@
   const demoTime = demoFrame.querySelector('[data-demo-time]');
   const fullscreenToggle = demoFrame.querySelector('[data-demo-fullscreen]');
   const formatTime = seconds => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+  document.querySelectorAll('[data-simulation-player]').forEach(figure => {
+    const video = figure.querySelector('video');
+    const seek = figure.querySelector('[data-comparison-seek]');
+    const time = figure.querySelector('[data-comparison-time]');
+    const syncTime = () => {
+      const duration = Number.isFinite(video.duration) ? video.duration : Number(video.dataset.duration);
+      const current = video.hasAttribute('src') ? video.currentTime : (positions.get(video)?.time || 0);
+      time.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
+      seek.max = duration;
+      seek.value = current;
+      seek.disabled = video.readyState < 1;
+      seek.setAttribute('aria-valuetext', `${formatTime(current)} of ${formatTime(duration)}`);
+    };
+    ['timeupdate', 'loadedmetadata', 'durationchange', 'emptied'].forEach(event => video.addEventListener(event, syncTime));
+    seek.addEventListener('input', () => {
+      if (video.readyState >= 1) video.currentTime = Math.min(Number(seek.value), video.duration - .01);
+    });
+    syncTime();
+  });
   const syncDemoTime = () => {
     const duration = Number.isFinite(demoVideo.duration) ? demoVideo.duration : 94;
     const time = demoVideo.hasAttribute('src') ? demoVideo.currentTime : (positions.get(demoVideo)?.time || 0);
@@ -337,7 +461,9 @@
   const panelOriginal = panelLightbox.querySelector('[data-panel-original]');
   let panelIndex = 0;
   let panelTrigger = null;
+  let panelSwipe = null;
   const showPanel = index => {
+    panelSwipe = null;
     panelIndex = (index + panels.length) % panels.length;
     const link = panels[panelIndex];
     const figure = link.closest('figure');
@@ -375,6 +501,32 @@
       panelLightbox.querySelector('[data-panel-close]').focus();
     });
   });
+  // Reserve horizontal swipes for navigation while preserving scrolling and pinch zoom.
+  panelImage.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'touch') return;
+    panelSwipe = event.isPrimary ? { id: event.pointerId, x: event.clientX, y: event.clientY } : null;
+  });
+  panelLightbox.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'touch' && !event.isPrimary) panelSwipe = null;
+  });
+  panelImage.addEventListener('pointermove', event => {
+    if (!panelSwipe || event.pointerId !== panelSwipe.id) return;
+    const dx = Math.abs(event.clientX - panelSwipe.x);
+    const dy = Math.abs(event.clientY - panelSwipe.y);
+    if (dy > 12 && dy > dx) panelSwipe = null;
+  });
+  panelImage.addEventListener('pointerup', event => {
+    if (!panelSwipe || event.pointerId !== panelSwipe.id) return;
+    const dx = event.clientX - panelSwipe.x;
+    const dy = event.clientY - panelSwipe.y;
+    const threshold = Math.max(40, Math.min(80, panelImage.clientWidth * .12));
+    panelSwipe = null;
+    if (Math.abs(dx) >= threshold && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      showPanel(panelIndex + (dx < 0 ? 1 : -1));
+    }
+  });
+  panelImage.addEventListener('pointercancel', () => { panelSwipe = null; });
+  panelImage.addEventListener('lostpointercapture', () => { panelSwipe = null; });
   panelLightbox.querySelector('[data-panel-prev]').addEventListener('click', () => showPanel(panelIndex - 1));
   panelLightbox.querySelector('[data-panel-next]').addEventListener('click', () => showPanel(panelIndex + 1));
   panelLightbox.querySelector('[data-panel-close]').addEventListener('click', () => panelLightbox.close());
@@ -391,6 +543,7 @@
         event.clientY < bounds.top || event.clientY > bounds.bottom)) panelLightbox.close();
   });
   panelLightbox.addEventListener('close', () => {
+    panelSwipe = null;
     panelImage.removeAttribute('src');
     syncModalLock();
     panelTrigger?.focus({ preventScroll: true });

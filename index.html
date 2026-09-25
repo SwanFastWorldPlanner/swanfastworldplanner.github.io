@@ -167,9 +167,10 @@
     </div>
     <div class="kmppi-gallery" aria-labelledby="kmppi-gallery-title">
       <h3 id="kmppi-gallery-title">Inside the search</h3>
+      <p class="kmppi-note">2D mechanism illustration &middot; <i>K</i> = 2 &middot; <i>M</i> = 4</p>
       <div class="kmppi-grid">
         <figure>
-          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/01_initial.png" aria-labelledby="kmppi-stage-1">
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/01_initial.png" aria-labelledby="kmppi-stage-1" title="View details">
             <img src="assets/kmppi/panels/01_initial.webp" width="580" height="495" loading="lazy" decoding="async" alt="MPPI and k-MPPI begin with the same 512 candidates on a two-mode return landscape.">
             <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
           </a>
@@ -177,7 +178,7 @@
           <template><p>The illustration starts from the same pool of 512 candidates on a shared two-mode return landscape. MPPI uses one global search distribution; k-MPPI maintains two local searches alongside a global search.</p><p>The contours and lower marginal-density plots describe the search distributions. They are not the final weighted proposal.</p></template>
         </figure>
         <figure>
-          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/02_select.png" aria-labelledby="kmppi-stage-2">
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/02_select.png" aria-labelledby="kmppi-stage-2" title="View details">
             <img src="assets/kmppi/panels/02_select.webp" width="580" height="495" loading="lazy" decoding="async" alt="Global and local searches select their elite sets; these sets can overlap.">
             <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
           </a>
@@ -185,7 +186,7 @@
           <template><p>MPPI selects 64 elites from the global pool of 512 candidates. In k-MPPI, each local search selects 64 elites from its 128 candidates, while the global search ranks all 512 candidates and also retains 64.</p><p>These elite sets may overlap. The global ranking reuses the shared pool; it does not introduce an additional pool of 512 rollouts.</p></template>
         </figure>
         <figure>
-          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/03_update.png" aria-labelledby="kmppi-stage-3">
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/03_update.png" aria-labelledby="kmppi-stage-3" title="View details">
             <img src="assets/kmppi/panels/03_update.webp" width="580" height="495" loading="lazy" decoding="async" alt="Before-and-after means and standard deviations for the global and local Gaussian searches.">
             <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
           </a>
@@ -193,7 +194,7 @@
           <template><p>The selected elites guide updates to the means and standard deviations of the search Gaussians. Grey contours show the distributions before the update; colored contours show them afterward.</p><p>The candidate locations remain fixed in this panel. The changing contours and marginal densities isolate how the global and local searches are refined.</p></template>
         </figure>
         <figure>
-          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/04_iteration2.png" aria-labelledby="kmppi-stage-4">
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/04_iteration2.png" aria-labelledby="kmppi-stage-4" title="View details">
             <img src="assets/kmppi/panels/04_iteration2.webp" width="580" height="495" loading="lazy" decoding="async" alt="After two iterations, k-MPPI's local searches remain near different return modes.">
             <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
           </a>
@@ -201,7 +202,7 @@
           <template><p>After two refinement iterations, k-MPPI's local searches remain concentrated around distinct high-return regions, while its global search covers a broader region. MPPI continues with one global search.</p><p>This is an intermediate snapshot. Two further refinement iterations follow before elite-set replacement, completing <i>M</i> = 4 iterations in this illustration.</p></template>
         </figure>
         <figure>
-          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/05_replace.png" aria-labelledby="kmppi-stage-5">
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/05_replace.png" aria-labelledby="kmppi-stage-5" title="View details">
             <img src="assets/kmppi/panels/05_replace.webp" width="580" height="495" loading="lazy" decoding="async" alt="After iteration four, the global elite set replaces the second local elite set, with 15 shared and 49 incoming samples.">
             <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
           </a>
@@ -209,7 +210,7 @@
           <template><p>After the fourth iteration, the global source has greater mass than the matched second local source in this example (0.573 versus 0.247). The global elite set is therefore assigned to the second local slot, while the first local set is retained.</p><p>The old and incoming sets share 15 samples; 49 samples are new to that slot. This panel shows elite-set replacement, not another Gaussian-fitting step. The two weight lanes are normalized separately for comparison.</p></template>
         </figure>
         <figure>
-          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/06_final.png" aria-labelledby="kmppi-stage-6">
+          <a class="kmppi-panel" data-kmppi-panel href="assets/kmppi/panels/06_final.png" aria-labelledby="kmppi-stage-6" title="View details">
             <img src="assets/kmppi/panels/06_final.webp" width="580" height="495" loading="lazy" decoding="async" alt="Final discrete support: MPPI retains 64 samples in one region; k-MPPI retains 128 with mass in both modes.">
             <span class="panel-enlarge" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span>
           </a>
@@ -217,90 +218,208 @@
           <template><p>The final display shows the retained samples and their joint weights: 64 samples for MPPI and 128 for k-MPPI. In this example, k-MPPI preserves both return modes, with 40.8% and 59.2% of the total weight.</p><p>This is a weighted discrete proposal, not a fitted Gaussian. The lower plots show sample weights, whereas the earlier lower plots show search densities.</p></template>
         </figure>
       </div>
-      <p class="kmppi-note">2D mechanism illustration &middot; <i>K</i> = 2 &middot; <i>M</i> = 4</p>
     </div>
   </div>
 </section>
-<section id="simulation-evaluation" class="showcase-section simulation-showcase" aria-labelledby="simulation-evaluation-title">
-  <div class="simulation-inner">
-    <header class="simulation-heading">
-      <div class="showcase-index"><span>02</span><i></i><small>Simulation evaluation</small></div>
-      <div class="simulation-heading-copy"><h2 id="simulation-evaluation-title">Velocity tracking in simulation.</h2><p>SWAN is compared with BMPC, the best-performing baseline, on figure-8 and straight-line tracking tasks for simulated Unitree Go2 and G1 robots.</p></div>
-    </header>
-    <div class="simulation-comparison-grid"><article class="tracking-block" data-tracking-group>
-  <div class="tracking-heading"><h3>Unitree Go2 <span>&middot;</span> Figure-8 tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree Go2 figure-8 comparison previews" aria-label="Play Unitree Go2 figure-8 comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+<section id="simulation-evaluation" class="showcase-section kmppi-section simulation-section" aria-labelledby="simulation-evaluation-title">
+  <div class="kmppi-inner">
+    <div class="kmppi-intro">
+      <header class="kmppi-copy">
+        <div class="showcase-index">
+<span>02</span><i></i><small>Unitree G1 + Go2</small>
+</div>
+        <h2 id="simulation-evaluation-title">Simulation<br> Evaluation</h2>
+        <p class="kmppi-summary">SWAN is compared with BMPC on figure-eight and straight-line velocity tracking for simulated Unitree Go2 and G1 robots.</p>
+      </header>
+      <div class="simulation-overview" data-entry-preview data-simulation-overview>
+        <strong class="simulation-overview-method">SWAN</strong>
+        <div class="simulation-overview-screen">
+          <video loop muted playsinline preload="none" width="1536" height="864" poster="assets/simulation/overview.webp" data-preview-src="assets/simulation/overview-mobile.mp4" data-preview-desktop-src="assets/simulation/overview-desktop.mp4" aria-label="SWAN on Unitree Go2 and G1 in figure-eight and straight-line simulation tasks" tabindex="-1"></video>
+          <div class="simulation-overview-labels" aria-hidden="true">
+<div><span>Go2 · Figure-8</span></div>
+<div><span>Go2 · Straight Line</span></div>
+<div><span>G1 · Figure-8</span></div>
+<div><span>G1 · Straight Line</span></div>
+</div>
+          <button class="simulation-overview-surface" type="button" data-preview-toggle data-preview-label="simulation overview" aria-label="Play simulation overview" hidden><span><img src="assets/icons/play.svg" width="24" height="24" alt="" data-preview-icon></span></button>
+        </div>
+      </div>
+    </div>
+    <div class="simulation-details" aria-labelledby="simulation-tracking-title">
+      <div class="simulation-detail-heading">
+        <h3 id="simulation-tracking-title">Velocity Tracking</h3>
+        <div class="simulation-tabs" data-simulation-tabs role="tablist" aria-label="Simulation robot" hidden>
+          <button id="simulation-tab-go2" type="button" role="tab" aria-controls="simulation-panel-go2" aria-selected="true" tabindex="0">Unitree Go2</button>
+          <button id="simulation-tab-g1" type="button" role="tab" aria-controls="simulation-panel-g1" aria-selected="false" tabindex="-1">Unitree G1</button>
+        </div>
+      </div>
+      <div id="simulation-panel-go2" class="simulation-panel" data-simulation-panel role="tabpanel" aria-labelledby="simulation-tab-go2" tabindex="0">
+        <p class="simulation-robot-label">Unitree Go2</p>
+        <div class="simulation-comparison-grid">
+<article class="tracking-block" aria-labelledby="simulation-go2-figure8-title">
+  <div class="tracking-heading">
+<h4 id="simulation-go2-figure8-title">Figure-8 Tracking</h4>
+</div>
   <div class="method-stack">
-    <figure class="method-video swan-video">
-      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-swan-figure8.jpg" data-preview-src="assets/videos/go2-swan-figure8-preview.mp4" aria-label="Unitree Go2 - Figure-8 tracking - SWAN"></video>
-      <a class="video-open" href="assets/videos/go2-swan-figure8-full.mp4" data-video-title="Unitree Go2 - Figure-8 tracking - SWAN" aria-label="Play Unitree Go2 - Figure-8 tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
-<figure class="method-video bmpc-video">
-      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-bmpc-figure8.jpg" data-preview-src="assets/videos/go2-bmpc-figure8-preview.mp4" aria-label="Unitree Go2 - Figure-8 tracking - BMPC"></video>
-      <a class="video-open" href="assets/videos/go2-bmpc-figure8-full.mp4" data-video-title="Unitree Go2 - Figure-8 tracking - BMPC" aria-label="Play Unitree Go2 - Figure-8 tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
+    <figure class="method-video swan-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>SWAN</strong> <span>(Ours)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-swan-figure8.jpg" data-preview-src="assets/videos/go2-swan-figure8-preview.mp4" aria-label="Unitree Go2 - Figure-8 tracking - SWAN" tabindex="-1" data-duration="31.416667"></video>
+      <a class="video-open" href="assets/videos/go2-swan-figure8-full.mp4" data-video-title="Unitree Go2 - Figure-8 tracking - SWAN" aria-label="View Unitree Go2 - Figure-8 tracking - SWAN details in fullscreen" title="Details: Unitree Go2 - Figure-8 tracking - SWAN"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree Go2 - Figure-8 tracking - SWAN" aria-label="Play Unitree Go2 - Figure-8 tracking - SWAN" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="31.416667" step="0.1" value="0" aria-label="Seek Unitree Go2 - Figure-8 tracking - SWAN" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:31</span>
+        </div></figure>
+<figure class="method-video bmpc-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>BMPC</strong> <span>(best baseline)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-bmpc-figure8.jpg" data-preview-src="assets/videos/go2-bmpc-figure8-preview.mp4" aria-label="Unitree Go2 - Figure-8 tracking - BMPC" tabindex="-1" data-duration="31.416667"></video>
+      <a class="video-open" href="assets/videos/go2-bmpc-figure8-full.mp4" data-video-title="Unitree Go2 - Figure-8 tracking - BMPC" aria-label="View Unitree Go2 - Figure-8 tracking - BMPC details in fullscreen" title="Details: Unitree Go2 - Figure-8 tracking - BMPC"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree Go2 - Figure-8 tracking - BMPC" aria-label="Play Unitree Go2 - Figure-8 tracking - BMPC" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="31.416667" step="0.1" value="0" aria-label="Seek Unitree Go2 - Figure-8 tracking - BMPC" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:31</span>
+        </div></figure>
   </div>
 </article>
-<article class="tracking-block" data-tracking-group>
-  <div class="tracking-heading"><h3>Unitree Go2 <span>&middot;</span> Straight-line tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree Go2 straight-line comparison previews" aria-label="Play Unitree Go2 straight-line comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+<article class="tracking-block" aria-labelledby="simulation-go2-straight-title">
+  <div class="tracking-heading">
+<h4 id="simulation-go2-straight-title">Straight-Line Tracking</h4>
+</div>
   <div class="method-stack">
-    <figure class="method-video swan-video">
-      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-swan-straight.jpg" data-preview-src="assets/videos/go2-swan-straight-preview.mp4" aria-label="Unitree Go2 - Straight-line tracking - SWAN"></video>
-      <a class="video-open" href="assets/videos/go2-swan-straight-full.mp4" data-video-title="Unitree Go2 - Straight-line tracking - SWAN" aria-label="Play Unitree Go2 - Straight-line tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
-<figure class="method-video bmpc-video">
-      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-bmpc-straight.jpg" data-preview-src="assets/videos/go2-bmpc-straight-preview.mp4" aria-label="Unitree Go2 - Straight-line tracking - BMPC"></video>
-      <a class="video-open" href="assets/videos/go2-bmpc-straight-full.mp4" data-video-title="Unitree Go2 - Straight-line tracking - BMPC" aria-label="Play Unitree Go2 - Straight-line tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
+    <figure class="method-video swan-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>SWAN</strong> <span>(Ours)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-swan-straight.jpg" data-preview-src="assets/videos/go2-swan-straight-preview.mp4" aria-label="Unitree Go2 - Straight-line tracking - SWAN" tabindex="-1" data-duration="20.0"></video>
+      <a class="video-open" href="assets/videos/go2-swan-straight-full.mp4" data-video-title="Unitree Go2 - Straight-line tracking - SWAN" aria-label="View Unitree Go2 - Straight-line tracking - SWAN details in fullscreen" title="Details: Unitree Go2 - Straight-line tracking - SWAN"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree Go2 - Straight-line tracking - SWAN" aria-label="Play Unitree Go2 - Straight-line tracking - SWAN" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="20.0" step="0.1" value="0" aria-label="Seek Unitree Go2 - Straight-line tracking - SWAN" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:20</span>
+        </div></figure>
+<figure class="method-video bmpc-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>BMPC</strong> <span>(best baseline)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/go2-bmpc-straight.jpg" data-preview-src="assets/videos/go2-bmpc-straight-preview.mp4" aria-label="Unitree Go2 - Straight-line tracking - BMPC" tabindex="-1" data-duration="20.0"></video>
+      <a class="video-open" href="assets/videos/go2-bmpc-straight-full.mp4" data-video-title="Unitree Go2 - Straight-line tracking - BMPC" aria-label="View Unitree Go2 - Straight-line tracking - BMPC details in fullscreen" title="Details: Unitree Go2 - Straight-line tracking - BMPC"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree Go2 - Straight-line tracking - BMPC" aria-label="Play Unitree Go2 - Straight-line tracking - BMPC" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="20.0" step="0.1" value="0" aria-label="Seek Unitree Go2 - Straight-line tracking - BMPC" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:20</span>
+        </div></figure>
   </div>
 </article>
-<article class="tracking-block" data-tracking-group>
-  <div class="tracking-heading"><h3>Unitree G1 <span>&middot;</span> Figure-8 tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree G1 figure-8 comparison previews" aria-label="Play Unitree G1 figure-8 comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+</div>
+      </div>
+      <div id="simulation-panel-g1" class="simulation-panel" data-simulation-panel role="tabpanel" aria-labelledby="simulation-tab-g1" tabindex="0">
+        <p class="simulation-robot-label">Unitree G1</p>
+        <div class="simulation-comparison-grid">
+<article class="tracking-block" aria-labelledby="simulation-g1-figure8-title">
+  <div class="tracking-heading">
+<h4 id="simulation-g1-figure8-title">Figure-8 Tracking</h4>
+</div>
   <div class="method-stack">
-    <figure class="method-video swan-video">
-      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-swan-figure8.jpg" data-preview-src="assets/videos/g1-swan-figure8-preview.mp4" aria-label="Unitree G1 - Figure-8 tracking - SWAN"></video>
-      <a class="video-open" href="assets/videos/g1-swan-figure8-full.mp4" data-video-title="Unitree G1 - Figure-8 tracking - SWAN" aria-label="Play Unitree G1 - Figure-8 tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
-<figure class="method-video bmpc-video">
-      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-bmpc-figure8.jpg" data-preview-src="assets/videos/g1-bmpc-figure8-preview.mp4" aria-label="Unitree G1 - Figure-8 tracking - BMPC"></video>
-      <a class="video-open" href="assets/videos/g1-bmpc-figure8-full.mp4" data-video-title="Unitree G1 - Figure-8 tracking - BMPC" aria-label="Play Unitree G1 - Figure-8 tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
+    <figure class="method-video swan-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>SWAN</strong> <span>(Ours)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-swan-figure8.jpg" data-preview-src="assets/videos/g1-swan-figure8-preview.mp4" aria-label="Unitree G1 - Figure-8 tracking - SWAN" tabindex="-1" data-duration="34.0"></video>
+      <a class="video-open" href="assets/videos/g1-swan-figure8-full.mp4" data-video-title="Unitree G1 - Figure-8 tracking - SWAN" aria-label="View Unitree G1 - Figure-8 tracking - SWAN details in fullscreen" title="Details: Unitree G1 - Figure-8 tracking - SWAN"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree G1 - Figure-8 tracking - SWAN" aria-label="Play Unitree G1 - Figure-8 tracking - SWAN" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="34.0" step="0.1" value="0" aria-label="Seek Unitree G1 - Figure-8 tracking - SWAN" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:34</span>
+        </div></figure>
+<figure class="method-video bmpc-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>BMPC</strong> <span>(best baseline)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-bmpc-figure8.jpg" data-preview-src="assets/videos/g1-bmpc-figure8-preview.mp4" aria-label="Unitree G1 - Figure-8 tracking - BMPC" tabindex="-1" data-duration="34.0"></video>
+      <a class="video-open" href="assets/videos/g1-bmpc-figure8-full.mp4" data-video-title="Unitree G1 - Figure-8 tracking - BMPC" aria-label="View Unitree G1 - Figure-8 tracking - BMPC details in fullscreen" title="Details: Unitree G1 - Figure-8 tracking - BMPC"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree G1 - Figure-8 tracking - BMPC" aria-label="Play Unitree G1 - Figure-8 tracking - BMPC" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="34.0" step="0.1" value="0" aria-label="Seek Unitree G1 - Figure-8 tracking - BMPC" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:34</span>
+        </div></figure>
   </div>
 </article>
-<article class="tracking-block" data-tracking-group>
-  <div class="tracking-heading"><h3>Unitree G1 <span>&middot;</span> Straight-line tracking</h3><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="Unitree G1 straight-line comparison previews" aria-label="Play Unitree G1 straight-line comparison previews" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+<article class="tracking-block" aria-labelledby="simulation-g1-straight-title">
+  <div class="tracking-heading">
+<h4 id="simulation-g1-straight-title">Straight-Line Tracking</h4>
+</div>
   <div class="method-stack">
-    <figure class="method-video swan-video">
-      <figcaption><strong>SWAN</strong><span>(ours)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-swan-straight.jpg" data-preview-src="assets/videos/g1-swan-straight-preview.mp4" aria-label="Unitree G1 - Straight-line tracking - SWAN"></video>
-      <a class="video-open" href="assets/videos/g1-swan-straight-full.mp4" data-video-title="Unitree G1 - Straight-line tracking - SWAN" aria-label="Play Unitree G1 - Straight-line tracking - SWAN in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
-<figure class="method-video bmpc-video">
-      <figcaption><strong>BMPC</strong><span>(best baseline)</span></figcaption>
-      <video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-bmpc-straight.jpg" data-preview-src="assets/videos/g1-bmpc-straight-preview.mp4" aria-label="Unitree G1 - Straight-line tracking - BMPC"></video>
-      <a class="video-open" href="assets/videos/g1-bmpc-straight-full.mp4" data-video-title="Unitree G1 - Straight-line tracking - BMPC" aria-label="Play Unitree G1 - Straight-line tracking - BMPC in fullscreen"><span>Fullscreen <b aria-hidden="true">&#8599;</b></span></a>
-    </figure>
+    <figure class="method-video swan-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>SWAN</strong> <span>(Ours)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-swan-straight.jpg" data-preview-src="assets/videos/g1-swan-straight-preview.mp4" aria-label="Unitree G1 - Straight-line tracking - SWAN" tabindex="-1" data-duration="20.0"></video>
+      <a class="video-open" href="assets/videos/g1-swan-straight-full.mp4" data-video-title="Unitree G1 - Straight-line tracking - SWAN" aria-label="View Unitree G1 - Straight-line tracking - SWAN details in fullscreen" title="Details: Unitree G1 - Straight-line tracking - SWAN"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree G1 - Straight-line tracking - SWAN" aria-label="Play Unitree G1 - Straight-line tracking - SWAN" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="20.0" step="0.1" value="0" aria-label="Seek Unitree G1 - Straight-line tracking - SWAN" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:20</span>
+        </div></figure>
+<figure class="method-video bmpc-video" data-tracking-group="" data-simulation-comparison="" data-simulation-player="">
+      <figcaption><strong>BMPC</strong> <span>(best baseline)</span></figcaption><div class="method-media">
+<video loop muted playsinline preload="none" width="960" height="900" poster="assets/posters/g1-bmpc-straight.jpg" data-preview-src="assets/videos/g1-bmpc-straight-preview.mp4" aria-label="Unitree G1 - Straight-line tracking - BMPC" tabindex="-1" data-duration="20.0"></video>
+      <a class="video-open" href="assets/videos/g1-bmpc-straight-full.mp4" data-video-title="Unitree G1 - Straight-line tracking - BMPC" aria-label="View Unitree G1 - Straight-line tracking - BMPC details in fullscreen" title="Details: Unitree G1 - Straight-line tracking - BMPC"><span aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt="">Details</span></a>
+    </div>
+<div class="simulation-player-controls" data-comparison-controls hidden>
+          <button class="media-icon-button" type="button" data-preview-toggle data-preview-label="Unitree G1 - Straight-line tracking - BMPC" aria-label="Play Unitree G1 - Straight-line tracking - BMPC" hidden><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></button>
+          <input class="simulation-player-seek" type="range" min="0" max="20.0" step="0.1" value="0" aria-label="Seek Unitree G1 - Straight-line tracking - BMPC" data-comparison-seek disabled>
+          <span class="simulation-player-time" data-comparison-time>00:00 / 00:20</span>
+        </div></figure>
   </div>
-</article></div>
+</article>
+</div>
+      </div>
+    </div>
   </div>
 </section>
-<section id="real-world-deployment" class="showcase-section" aria-labelledby="real-world-deployment-title">
-  <div class="showcase-inner">
-    <div class="showcase-copy">
-      <div class="showcase-index"><span>03</span><i></i><small>Real-world deployment</small></div>
-      <h2 id="real-world-deployment-title">From world-model planning to a Unitree Go2.</h2><p>The same planning framework transfers to physical control, producing stable velocity-tracking locomotion under a high-frequency control loop.</p>
-      <div class="tag-list" aria-label="Real-world deployment highlights"><span>Unitree Go2</span><span>Velocity tracking</span><span>High-frequency control</span></div>
+
+<section id="real-world-deployment" class="showcase-section kmppi-section real-section" aria-labelledby="real-world-deployment-title">
+  <div class="kmppi-inner">
+    <div class="kmppi-intro">
+      <header class="kmppi-copy">
+        <div class="showcase-index"><span>03</span><i></i><small>Unitree Go2</small></div>
+        <h2 id="real-world-deployment-title">Real-World<br> Deployment</h2>
+        <p class="kmppi-summary">SWAN controls a real Unitree Go2 across directional locomotion, turning, and external pushes.</p>
+      </header>
+      <div class="real-overview" data-entry-preview data-real-montage>
+        <div class="real-mosaic">
+          <video class="real-overview-video" loop muted playsinline preload="none" width="1920" height="1080" poster="assets/real-world/overview.webp" data-preview-src="assets/real-world/overview-mobile.mp4" data-preview-desktop-src="assets/real-world/overview-desktop.mp4" aria-label="Nine real-world Unitree Go2 demonstrations" tabindex="-1"></video>
+          <div class="real-hotspots" aria-label="Real-world demonstrations">
+            <a class="real-tile" href="assets/real-world/turn-left.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/turn-left-preview.mp4" data-video-title="Unitree Go2 - Turn Left" data-video-audio="true" aria-label="Play Turn Left with sound in fullscreen" title="Turn Left: fullscreen"><span class="real-tile-name">Turn Left</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/forward.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/forward-preview.mp4" data-video-title="Unitree Go2 - Forward" data-video-audio="true" aria-label="Play Forward with sound in fullscreen" title="Forward: fullscreen"><span class="real-tile-name">Forward</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/turn-right.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/turn-right-preview.mp4" data-video-title="Unitree Go2 - Turn Right" data-video-audio="true" aria-label="Play Turn Right with sound in fullscreen" title="Turn Right: fullscreen"><span class="real-tile-name">Turn Right</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/strafe-left.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/strafe-left-preview.mp4" data-video-title="Unitree Go2 - Strafe Left" data-video-audio="true" aria-label="Play Strafe Left with sound in fullscreen" title="Strafe Left: fullscreen"><span class="real-tile-name">Strafe Left</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/figure8.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/figure8-preview.mp4" data-video-title="Unitree Go2 - Figure-8" data-video-audio="true" aria-label="Play Figure-8 with sound in fullscreen" title="Figure-8: fullscreen"><span class="real-tile-name">Figure-8</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/strafe-right.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/strafe-right-preview.mp4" data-video-title="Unitree Go2 - Strafe Right" data-video-audio="true" aria-label="Play Strafe Right with sound in fullscreen" title="Strafe Right: fullscreen"><span class="real-tile-name">Strafe Right</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/push-1.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/push-1-preview.mp4" data-video-title="Unitree Go2 - External Push 1" data-video-audio="true" aria-label="Play External Push 1 with sound in fullscreen" title="External Push 1: fullscreen"><span class="real-tile-name">External Push 1</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/backward.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/backward-preview.mp4" data-video-title="Unitree Go2 - Backward" data-video-audio="true" aria-label="Play Backward with sound in fullscreen" title="Backward: fullscreen"><span class="real-tile-name">Backward</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+            <a class="real-tile" href="assets/real-world/push-2.mp4" data-real-video-open data-real-tile data-hover-src="assets/real-world/push-2-preview.mp4" data-video-title="Unitree Go2 - External Push 2" data-video-audio="true" aria-label="Play External Push 2 with sound in fullscreen" title="External Push 2: fullscreen"><span class="real-tile-name">External Push 2</span><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="18" height="18" alt=""></span></a>
+          </div>
+        </div>
+        <video class="real-hover-video" data-real-hover loop muted playsinline preload="none" width="512" height="288" aria-hidden="true" tabindex="-1" hidden></video>
+        <div class="real-overview-tools"><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="real-world overview" aria-label="Play real-world overview" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></div>
+      </div>
     </div>
-    <div class="media-frame deployment">
-      <div class="media-topbar"><span><i></i> Media preview</span><small>03 / 03</small></div>
-      <div class="media-placeholder" role="img" aria-label="Unitree Go2 deployment. Real-world locomotion video coming soon.">
-        <div class="visual-field" aria-hidden="true"><div class="deployment-visual"><span class="platform"></span><span class="body"></span><i class="leg one"></i><i class="leg two"></i><i class="leg three"></i><i class="leg four"></i><b></b></div></div>
-        <div class="placeholder-copy"><span>Coming soon</span><strong>Unitree Go2 deployment</strong><small>Real-world locomotion video coming soon</small></div>
+    <div class="real-tracking" aria-labelledby="real-tracking-title">
+      <h3 id="real-tracking-title">Velocity Tracking</h3>
+      <p class="real-tracking-summary">Commanded and motion-capture velocities during figure-eight and straight-line locomotion. Measured velocities are smoothed for visualization.</p>
+      <div class="real-tracking-grid">
+        <figure class="real-track" data-tracking-group>
+          <figcaption class="real-track-heading"><h4>Figure-8 Tracking</h4><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="real-world figure-eight tracking" aria-label="Play real-world figure-eight tracking" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></figcaption>
+          <div class="real-track-media">
+            <video loop muted playsinline preload="none" width="960" height="960" poster="assets/real-world/figure8-tracking.webp" data-preview-src="assets/real-world/figure8-tracking-preview.mp4" aria-label="Real Unitree Go2 figure-eight locomotion with synchronized velocity tracking"></video>
+            <a class="real-track-open" href="assets/real-world/figure8-tracking.mp4" data-real-video-open data-video-title="Unitree Go2 - Figure-8 Tracking" data-video-audio="true" data-video-aspect="1 / 1" aria-label="Play Figure-8 Tracking with sound in fullscreen" title="Figure-8 Tracking: fullscreen"><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt=""></span></a>
+          </div>
+        </figure>
+        <figure class="real-track" data-tracking-group>
+          <figcaption class="real-track-heading"><h4>Straight-Line Tracking</h4><button class="preview-toggle" type="button" data-preview-toggle data-preview-label="real-world straight-line tracking" aria-label="Play real-world straight-line tracking" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button></figcaption>
+          <div class="real-track-media">
+            <video loop muted playsinline preload="none" width="960" height="960" poster="assets/real-world/straight-tracking.webp" data-preview-src="assets/real-world/straight-tracking-preview.mp4" aria-label="Real Unitree Go2 straight-line locomotion with synchronized velocity tracking"></video>
+            <a class="real-track-open" href="assets/real-world/straight-tracking.mp4" data-real-video-open data-video-title="Unitree Go2 - Straight-Line Tracking" data-video-audio="true" data-video-aspect="1 / 1" aria-label="Play Straight-Line Tracking with sound in fullscreen" title="Straight-Line Tracking: fullscreen"><span class="real-expand-icon" aria-hidden="true"><img src="assets/icons/maximize.svg" width="20" height="20" alt=""></span></a>
+          </div>
+        </figure>
       </div>
     </div>
   </div>
@@ -309,7 +428,7 @@
 </main>
 <dialog class="video-lightbox" id="simulation-video-lightbox" aria-labelledby="simulation-video-lightbox-title">
   <div class="lightbox-header">
-    <div><span>Simulation playback</span><strong id="simulation-video-lightbox-title"></strong></div>
+    <div><span data-lightbox-context>Simulation playback</span><strong id="simulation-video-lightbox-title"></strong></div>
     <div class="lightbox-actions"><a class="lightbox-direct" href="#" target="_blank" rel="noopener">Open video</a><button class="lightbox-close" type="button" aria-label="Close fullscreen video">&times;</button></div>
   </div>
   <div class="lightbox-body"><video class="lightbox-player" controls loop muted playsinline preload="none"></video></div>
@@ -323,14 +442,15 @@
       <button class="media-icon-button" data-panel-close type="button" aria-label="Close image" title="Close image"><img src="assets/icons/x.svg" width="22" height="22" alt=""></button>
     </div>
   </div>
-  <div class="panel-image-area"><img class="panel-viewer-image" width="1160" height="990" alt="" data-panel-image><p class="panel-image-status" data-panel-status role="status" hidden>Loading image...</p></div>
+  <div class="panel-image-area">
+    <button class="media-icon-button panel-nav-button" data-panel-prev type="button" aria-label="Previous image" title="Previous image"><img src="assets/icons/chevron-left.svg" width="24" height="24" alt=""></button>
+    <img class="panel-viewer-image" width="1160" height="990" alt="" data-panel-image>
+    <button class="media-icon-button panel-nav-button" data-panel-next type="button" aria-label="Next image" title="Next image"><img src="assets/icons/chevron-right.svg" width="24" height="24" alt=""></button>
+    <p class="panel-image-status" data-panel-status role="status" hidden>Loading image...</p>
+  </div>
   <div class="panel-viewer-caption">
     <div class="panel-caption-heading">
       <div aria-live="polite" aria-atomic="true"><span class="panel-counter" data-panel-counter>1 / 6</span><h3 id="panel-viewer-title">Initial</h3></div>
-      <div class="panel-viewer-actions">
-        <button class="media-icon-button" data-panel-prev type="button" aria-label="Previous image" title="Previous image"><img src="assets/icons/chevron-left.svg" width="24" height="24" alt=""></button>
-        <button class="media-icon-button" data-panel-next type="button" aria-label="Next image" title="Next image"><img src="assets/icons/chevron-right.svg" width="24" height="24" alt=""></button>
-      </div>
     </div>
     <div class="panel-description" data-panel-description></div>
   </div>
