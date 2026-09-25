@@ -28,6 +28,7 @@
 
   const groups = [...document.querySelectorAll('[data-tracking-group], [data-entry-preview]')];
   const previews = [...document.querySelectorAll('[data-preview-src]')];
+  const focusGroups = [...document.querySelectorAll('[data-focus-group]')];
   const lightbox = document.querySelector('#simulation-video-lightbox');
   const simulationOverview = document.querySelector('[data-simulation-overview]');
   const player = lightbox.querySelector('.lightbox-player');
@@ -55,15 +56,56 @@
   const dialogIsOpen = () => lightbox.open || panelLightbox.open;
   const syncModalLock = () => {
     document.documentElement.classList.toggle('modal-open', dialogIsOpen() || demoExpanded);
+    if (dialogIsOpen() || demoExpanded) focusGroups.forEach(clearMediaFocus);
   };
   let enteredFullscreen = false;
   let closing = false;
   let hoverTarget = null;
   let hoverTimer = null;
+  const clearMediaFocus = group => {
+    group.classList.remove('has-focus');
+    group.querySelectorAll('.is-focus').forEach(item => item.classList.remove('is-focus'));
+  };
+  const focusMediaItem = item => {
+    if (!hoverPointer.matches || reducedMotion.matches || dialogIsOpen() || demoExpanded) return;
+    if (item.classList.contains('is-focus')) return;
+    const group = item.closest('[data-focus-group]');
+    clearMediaFocus(group);
+    const bounds = group.getBoundingClientRect();
+    const rect = item.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2 - bounds.left) / bounds.width;
+    const y = (rect.top + rect.height / 2 - bounds.top) / bounds.height;
+    const horizontal = x < .4 ? 'left' : x > .6 ? 'right' : 'center';
+    const vertical = rect.height > bounds.height * .65 || y < .4 ? 'top' : y > .6 ? 'bottom' : 'center';
+    item.style.setProperty('--focus-origin', `${horizontal} ${vertical}`);
+    item.classList.add('is-focus');
+    group.classList.add('has-focus');
+  };
+  focusGroups.forEach(group => {
+    group.querySelectorAll('[data-focus-item]:not([data-real-tile])').forEach(item => {
+      const release = () => {
+        if (item.classList.contains('is-focus') && !item.matches(':hover') &&
+            !item.matches(':focus-visible') && !item.querySelector(':focus-visible')) clearMediaFocus(group);
+      };
+      item.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'mouse' || event.pointerType === 'pen') focusMediaItem(item);
+      });
+      item.addEventListener('pointerleave', release);
+      item.addEventListener('focusin', event => {
+        if (event.target.matches(':focus-visible')) focusMediaItem(item);
+      });
+      item.addEventListener('focusout', () => queueMicrotask(release));
+    });
+  });
+  const resetMediaFocus = () => focusGroups.forEach(clearMediaFocus);
+  window.addEventListener('resize', resetMediaFocus);
+  hoverPointer.addEventListener('change', resetMediaFocus);
+  reducedMotion.addEventListener('change', resetMediaFocus);
   const stopRealHover = () => {
     window.clearTimeout(hoverTimer);
     hoverTarget?.classList.remove('is-previewing');
     hoverTarget = null;
+    clearMediaFocus(realMontage.querySelector('[data-focus-group]'));
     hoverVideo.hidden = true;
     if (hoverVideo.hasAttribute('src')) {
       hoverVideo.pause();
@@ -75,6 +117,7 @@
   const previewsPaused = group => userPaused.get(group) ?? (reducedMotion.matches || Boolean(connection?.saveData));
   const syncPreviewControl = group => {
     const toggle = group.querySelector('[data-preview-toggle]');
+    if (!toggle) return;
     const paused = previewsPaused(group);
     const label = `${paused ? 'Play' : 'Pause'} ${toggle.dataset.previewLabel}`;
     toggle.classList.toggle('is-paused', paused);
@@ -180,38 +223,33 @@
     });
   };
 
-  const simulationTablist = document.querySelector('[data-simulation-tabs]');
-  const simulationTabs = [...simulationTablist.querySelectorAll('[role="tab"]')];
+  const simulationSwitch = document.querySelector('[data-simulation-switch]');
   const simulationPanels = [...document.querySelectorAll('[data-simulation-panel]')];
-  const selectSimulationTab = (tab, focus = false) => {
-    simulationTablist.style.setProperty('--simulation-tab-index', simulationTabs.indexOf(tab));
-    simulationTabs.forEach(item => {
-      const selected = item === tab;
-      item.setAttribute('aria-selected', String(selected));
-      item.tabIndex = selected ? 0 : -1;
-    });
+  const selectSimulationRobot = robot => {
+    const current = robot === 'go2' ? 'Unitree Go2' : 'Unitree G1';
+    const next = robot === 'go2' ? 'Unitree G1' : 'Unitree Go2';
+    simulationSwitch.dataset.selected = robot;
+    simulationSwitch.setAttribute('aria-label', `${current} selected. Switch to ${next}`);
+    simulationSwitch.title = `Switch to ${next}`;
     simulationPanels.forEach(panel => {
-      panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      panel.hidden = panel.id !== `simulation-panel-${robot}`;
       if (panel.hidden) {
         panel.querySelectorAll('[data-tracking-group]').forEach(group => visibleGroups.delete(group));
         panel.querySelectorAll('[data-preview-src]').forEach(stopPreview);
       }
     });
-    if (focus) tab.focus({ preventScroll: true });
     updatePreviews();
   };
-  simulationTablist.hidden = false;
-  simulationTabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => selectSimulationTab(tab));
-    tab.addEventListener('keydown', event => {
-      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-      event.preventDefault();
-      const next = event.key === 'Home' ? 0 : event.key === 'End' ? simulationTabs.length - 1 :
-        (index + (event.key === 'ArrowRight' ? 1 : -1) + simulationTabs.length) % simulationTabs.length;
-      selectSimulationTab(simulationTabs[next], true);
-    });
+  simulationSwitch.hidden = false;
+  simulationSwitch.addEventListener('click', () => {
+    selectSimulationRobot(simulationSwitch.dataset.selected === 'go2' ? 'g1' : 'go2');
   });
-  selectSimulationTab(simulationTabs[0]);
+  simulationSwitch.addEventListener('keydown', event => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    selectSimulationRobot(event.key === 'ArrowLeft' || event.key === 'Home' ? 'go2' : 'g1');
+  });
+  selectSimulationRobot('go2');
 
   if ('IntersectionObserver' in window) {
     const navigationVisibility = new Map();
@@ -279,6 +317,7 @@
     if (!hoverTarget || hoverVideo.getAttribute('src') !== hoverTarget.dataset.hoverSrc || dialogIsOpen()) return;
     hoverVideo.hidden = false;
     hoverTarget.classList.add('is-previewing');
+    focusMediaItem(hoverTarget);
   });
   hoverVideo.addEventListener('error', stopRealHover);
   hoverPointer.addEventListener('change', stopRealHover);
@@ -287,7 +326,10 @@
   narrowScreen.addEventListener('change', updatePreviews);
   connection?.addEventListener('change', updatePreviews);
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) player.pause();
+    if (document.hidden) {
+      player.pause();
+      resetMediaFocus();
+    }
     updatePreviews();
   });
   window.addEventListener('pagehide', () => {
@@ -365,7 +407,7 @@
   const demoTime = demoFrame.querySelector('[data-demo-time]');
   const fullscreenToggle = demoFrame.querySelector('[data-demo-fullscreen]');
   const formatTime = seconds => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
-  document.querySelectorAll('[data-simulation-player]').forEach(figure => {
+  document.querySelectorAll('[data-simulation-player], [data-real-player]').forEach(figure => {
     const video = figure.querySelector('video');
     const seek = figure.querySelector('[data-comparison-seek]');
     const time = figure.querySelector('[data-comparison-time]');
@@ -459,12 +501,26 @@
   const panelCounter = panelLightbox.querySelector('[data-panel-counter]');
   const panelDescription = panelLightbox.querySelector('[data-panel-description]');
   const panelOriginal = panelLightbox.querySelector('[data-panel-original]');
+  const panelPrev = panelLightbox.querySelector('[data-panel-prev]');
+  const panelNext = panelLightbox.querySelector('[data-panel-next]');
   let panelIndex = 0;
   let panelTrigger = null;
   let panelSwipe = null;
   const showPanel = index => {
     panelSwipe = null;
-    panelIndex = (index + panels.length) % panels.length;
+    if (index < 0 || index >= panels.length) return;
+    panelIndex = index;
+    const focusedControl = document.activeElement;
+    panelPrev.disabled = panelIndex === 0;
+    panelNext.disabled = panelIndex === panels.length - 1;
+    // Keep keyboard navigation in the dialog when its focused arrow becomes disabled.
+    if (focusedControl === panelPrev && panelPrev.disabled) {
+      panelNext.focus({ preventScroll: true });
+    } else if (focusedControl === panelNext && panelNext.disabled) {
+      panelPrev.focus({ preventScroll: true });
+    }
+    panelPrev.title = panelPrev.disabled ? 'First image' : 'Previous image';
+    panelNext.title = panelNext.disabled ? 'Last image' : 'Next image';
     const link = panels[panelIndex];
     const figure = link.closest('figure');
     panelImage.classList.add('is-loading');
@@ -527,8 +583,8 @@
   });
   panelImage.addEventListener('pointercancel', () => { panelSwipe = null; });
   panelImage.addEventListener('lostpointercapture', () => { panelSwipe = null; });
-  panelLightbox.querySelector('[data-panel-prev]').addEventListener('click', () => showPanel(panelIndex - 1));
-  panelLightbox.querySelector('[data-panel-next]').addEventListener('click', () => showPanel(panelIndex + 1));
+  panelPrev.addEventListener('click', () => showPanel(panelIndex - 1));
+  panelNext.addEventListener('click', () => showPanel(panelIndex + 1));
   panelLightbox.querySelector('[data-panel-close]').addEventListener('click', () => panelLightbox.close());
   panelLightbox.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
