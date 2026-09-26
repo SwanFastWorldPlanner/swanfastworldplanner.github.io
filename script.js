@@ -37,12 +37,15 @@
   const realMontage = document.querySelector('[data-real-montage]');
   const hoverVideo = document.querySelector('[data-real-hover]');
   const hoverPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const touchFullscreen = window.matchMedia('(pointer: coarse)');
   const panelLightbox = document.querySelector('#kmppi-panel-lightbox');
   const demoFrame = document.querySelector('[data-demo-player]');
   const demoVideo = demoFrame.querySelector('video');
   const demoSurface = demoFrame.querySelector('[data-demo-surface]');
+  const demoBackdrop = document.querySelector('[data-demo-backdrop]');
   const demoError = demoFrame.querySelector('[data-demo-error]');
   let demoExpanded = false;
+  let demoReturnScroll = null;
   const directLink = lightbox.querySelector('.lightbox-direct');
   const errorMessage = lightbox.querySelector('.lightbox-error');
   const previewToggles = [...document.querySelectorAll('[data-preview-toggle]')];
@@ -339,13 +342,88 @@
   });
   window.addEventListener('pageshow', updatePreviews);
 
+  const installSwipeDismiss = ({ frame, surface, isActive, dismiss, bottomGuard = 0, backdrop }) => {
+    let drag = null;
+    let settleTimer = null;
+    let suppressClickUntil = 0;
+    const reset = (animate = false) => {
+      const pointerId = drag?.id;
+      drag = null;
+      if (pointerId !== undefined && frame.hasPointerCapture(pointerId)) frame.releasePointerCapture(pointerId);
+      window.clearTimeout(settleTimer);
+      frame.classList.remove('is-swipe-dragging');
+      frame.classList.toggle('is-swipe-settling', animate && !reducedMotion.matches);
+      ['--swipe-y', '--swipe-scale', '--swipe-shade', '--swipe-blur'].forEach(name => frame.style.removeProperty(name));
+      if (backdrop) backdrop.style.removeProperty('opacity');
+      if (animate) settleTimer = window.setTimeout(() => frame.classList.remove('is-swipe-settling'), 200);
+    };
+    document.addEventListener('pointerdown', event => {
+      if (event.isPrimary) suppressClickUntil = 0;
+      if (event.pointerType !== 'touch' || !isActive()) return;
+      if (!event.isPrimary) { reset(true); return; }
+      if ((window.visualViewport?.scale || 1) > 1.01 || !surface.contains(event.target)) return;
+      // Native video controls are inside a browser-owned shadow tree; reserve their bottom strip.
+      if (bottomGuard && event.clientY >= surface.getBoundingClientRect().bottom - bottomGuard) return;
+      reset();
+      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, distance: 0, started: false };
+    }, true);
+    frame.addEventListener('pointermove', event => {
+      if (!drag || event.pointerId !== drag.id) return;
+      if (!isActive()) { reset(); return; }
+      const dx = event.clientX - drag.x;
+      const dy = event.clientY - drag.y;
+      if (!drag.started) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) < 12) return;
+        if (dy <= 0 || dy < Math.abs(dx) * 1.25) { reset(); return; }
+        drag.started = true;
+        frame.setPointerCapture(event.pointerId);
+      }
+      if (event.cancelable) event.preventDefault();
+      drag.distance = Math.max(0, dy);
+      suppressClickUntil = performance.now() + 500;
+      if (reducedMotion.matches) return;
+      const progress = Math.min(drag.distance / Math.max(140, Math.min(240, innerHeight * .3)), 1);
+      frame.classList.add('is-swipe-dragging');
+      frame.style.setProperty('--swipe-y', `${drag.distance * .82}px`);
+      frame.style.setProperty('--swipe-scale', String(1 - progress * .15));
+      frame.style.setProperty('--swipe-shade', String(.88 * (1 - progress * .8)));
+      frame.style.setProperty('--swipe-blur', `${12 * (1 - progress)}px`);
+      if (backdrop) backdrop.style.opacity = String(1 - progress * .8);
+    }, true);
+    frame.addEventListener('pointerup', event => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const shouldDismiss = drag.started && drag.distance >= Math.max(80, Math.min(120, innerHeight * .14));
+      const dragged = drag.started;
+      reset(!shouldDismiss && dragged);
+      if (dragged) suppressClickUntil = performance.now() + 500;
+      if (shouldDismiss) dismiss();
+    }, true);
+    frame.addEventListener('pointercancel', () => reset(true));
+    frame.addEventListener('lostpointercapture', event => {
+      if (event.target === frame && drag?.id === event.pointerId) reset(true);
+    });
+    // A drag must not become a tap on the video or the page revealed after dismissal.
+    document.addEventListener('click', event => {
+      if (event.detail && performance.now() < suppressClickUntil) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+    window.addEventListener('resize', () => reset());
+    document.addEventListener('visibilitychange', () => { if (document.hidden) reset(); });
+    reducedMotion.addEventListener('change', () => reset());
+    return { reset };
+  };
+
   const closeLightbox = async () => {
     if (closing || !lightbox.open) return;
     closing = true;
+    lightboxSwipe.reset();
     player.pause();
     player.removeAttribute('src');
     player.load();
     lightbox.close();
+    lightbox.classList.remove('is-touch-fullscreen');
     syncModalLock();
     if (document.fullscreenElement === lightbox) {
       try { await document.exitFullscreen(); } catch {}
@@ -355,6 +433,15 @@
     lastTrigger?.focus({ preventScroll: true });
     updatePreviews();
   };
+
+  const lightboxSwipe = installSwipeDismiss({
+    frame: lightbox,
+    surface: player,
+    isActive: () => lightbox.open && lightbox.classList.contains('is-touch-fullscreen') &&
+      !document.fullscreenElement && !player.webkitDisplayingFullscreen,
+    dismiss: () => void closeLightbox(),
+    bottomGuard: 96,
+  });
 
   document.querySelectorAll('.video-open, [data-real-video-open]').forEach(trigger => {
     trigger.setAttribute('aria-haspopup', 'dialog');
@@ -371,13 +458,16 @@
       player.muted = trigger.dataset.videoAudio !== 'true';
       directLink.href = trigger.href;
       errorMessage.hidden = true;
+      lightboxSwipe.reset();
+      lightbox.classList.toggle('is-touch-fullscreen', touchFullscreen.matches);
+      player.controlsList?.toggle('nofullscreen', touchFullscreen.matches);
       lightbox.showModal();
       syncModalLock();
       updatePreviews();
       player.src = trigger.href;
       player.load();
       void player.play().catch(() => {});
-      if (lightbox.requestFullscreen) {
+      if (!touchFullscreen.matches && lightbox.requestFullscreen) {
         void lightbox.requestFullscreen().then(() => {
           enteredFullscreen = document.fullscreenElement === lightbox;
           if (!lightbox.open && enteredFullscreen) void document.exitFullscreen().catch(() => {});
@@ -447,9 +537,21 @@
     fullscreenToggle.setAttribute('aria-label', label);
     fullscreenToggle.title = label;
     fullscreenToggle.querySelector('img').src = `assets/icons/${demoExpanded ? 'minimize' : 'maximize'}.svg`;
+    demoBackdrop.hidden = !demoFrame.classList.contains('is-expanded');
     syncModalLock();
     updatePreviews();
-    if (wasExpanded && !demoExpanded) fullscreenToggle.focus({ preventScroll: true });
+    if (wasExpanded && !demoExpanded) {
+      demoSwipe.reset();
+      demoFrame.parentElement.style.removeProperty('--expanded-demo-height');
+      if (demoReturnScroll !== null) window.scrollTo({ top: demoReturnScroll, behavior: 'instant' });
+      demoReturnScroll = null;
+      fullscreenToggle.focus({ preventScroll: true });
+    }
+  };
+  const expandDemoInPage = () => {
+    demoReturnScroll = window.scrollY;
+    demoFrame.parentElement.style.setProperty('--expanded-demo-height', `${demoFrame.getBoundingClientRect().height}px`);
+    demoFrame.classList.add('is-expanded');
   };
   const toggleDemoFullscreen = async () => {
     window.clearTimeout(surfaceClick);
@@ -457,16 +559,25 @@
       try { await document.exitFullscreen(); } catch {}
     } else if (demoFrame.classList.contains('is-expanded')) {
       demoFrame.classList.remove('is-expanded');
+    } else if (touchFullscreen.matches) {
+      expandDemoInPage();
     } else {
       try {
         if (!demoFrame.requestFullscreen) throw new Error('Fullscreen unavailable');
         await demoFrame.requestFullscreen();
       } catch {
-        demoFrame.classList.add('is-expanded');
+        expandDemoInPage();
       }
     }
     syncDemoFullscreen();
   };
+  const demoSwipe = installSwipeDismiss({
+    frame: demoFrame,
+    surface: demoSurface,
+    isActive: () => demoExpanded && demoFrame.classList.contains('is-expanded') && touchFullscreen.matches,
+    dismiss: () => { demoFrame.classList.remove('is-expanded'); syncDemoFullscreen(); },
+    backdrop: demoBackdrop,
+  });
   fullscreenToggle.addEventListener('click', () => void toggleDemoFullscreen());
   document.addEventListener('fullscreenchange', syncDemoFullscreen);
   demoSurface.addEventListener('click', event => {

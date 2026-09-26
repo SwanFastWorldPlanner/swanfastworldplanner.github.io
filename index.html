@@ -22,8 +22,8 @@
     imagesizes="(max-width: 680px) 104px, 140px"
     fetchpriority="high"
   >
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=mobile-swipe-1">
+  <script src="script.js?v=mobile-swipe-1" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#top">Skip to content</a>
@@ -129,10 +129,9 @@
       <article class="navigation-card robot">
         <div class="card-topline"><span>03</span><small>Unitree Go2</small></div>
         <div class="card-visual" data-entry-preview>
-          <video loop muted playsinline preload="none" width="960" height="540" data-preview-src="assets/previews/entry-real-world.mp4" data-preview-desktop-src="assets/previews/entry-real-world-desktop.mp4" tabindex="-1"></video>
+          <video loop muted playsinline preload="none" width="960" height="540" data-preview-src="assets/previews/entry-real-world-desktop.mp4" tabindex="-1"></video>
           <picture class="entry-poster">
-            <source media="(min-width: 921px)" srcset="assets/previews/entry-real-world-desktop.webp">
-            <img src="assets/previews/entry-real-world.webp" width="960" height="540" loading="lazy" decoding="async" alt="">
+            <img src="assets/previews/entry-real-world-desktop.webp" width="960" height="540" loading="lazy" decoding="async" alt="">
           </picture>
           <div class="entry-quad-labels" aria-hidden="true"><span>Figure-8</span><span>Forward</span><span>Lateral</span><span>External Pushes</span></div>
           <button class="preview-toggle" type="button" data-preview-toggle data-preview-label="real-world preview" aria-label="Play real-world preview" hidden><span class="preview-control-icon"><img src="assets/icons/play.svg" width="20" height="20" alt="" data-preview-icon></span></button>
@@ -443,6 +442,7 @@
 
 </div>
 </main>
+<div class="demo-backdrop" data-demo-backdrop hidden aria-hidden="true"></div>
 <dialog class="video-lightbox" id="simulation-video-lightbox" aria-labelledby="simulation-video-lightbox-title">
   <div class="lightbox-header">
     <div><span data-lightbox-context>Simulation playback</span><strong id="simulation-video-lightbox-title"></strong></div>
