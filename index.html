@@ -22,7 +22,7 @@
     imagesizes="(max-width: 680px) 104px, 140px"
     fetchpriority="high"
   >
-  <link rel="stylesheet" href="styles.css?v=tracking-copy-1">
+  <link rel="stylesheet" href="styles.css?v=tracking-layout-1">
   <script src="script.js?v=mobile-swipe-1" defer></script>
 </head>
 <body>
@@ -256,13 +256,15 @@
     </div>
     <div class="simulation-details" aria-labelledby="simulation-tracking-title">
       <div class="simulation-detail-heading">
-        <h3 id="simulation-tracking-title">Tracking Evaluation</h3>
+        <div class="simulation-detail-copy">
+          <h3 id="simulation-tracking-title">Tracking Evaluation</h3>
+          <p class="simulation-tracking-summary">SWAN vs. BMPC: commanded and simulated body velocities during figure-eight and straight-line locomotion.</p>
+        </div>
         <button class="simulation-switch" type="button" data-simulation-switch data-selected="go2" aria-controls="simulation-panel-go2 simulation-panel-g1" aria-label="Unitree Go2 selected. Switch to Unitree G1" hidden>
           <span data-robot="go2" aria-hidden="true">Unitree Go2</span>
           <span data-robot="g1" aria-hidden="true">Unitree G1</span>
         </button>
       </div>
-      <p class="simulation-tracking-summary">SWAN vs. BMPC: commanded and simulated body velocities during figure-eight and straight-line locomotion.</p>
       <div id="simulation-panel-go2" class="simulation-panel" data-simulation-panel role="region" aria-label="Unitree Go2 comparisons" tabindex="0">
         <p class="simulation-robot-label">Unitree Go2</p>
         <div class="simulation-comparison-grid" data-focus-group="">
